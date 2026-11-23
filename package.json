@@ -1,0 +1,9 @@
+{
+  "name": "careconnect-server",
+  "version": "1.0.0",
+  "description": "CareConnect backend: cross-device sync, 24/7 alert escalation, phone push and SMS",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" },
+  "optionalDependencies": { "web-push": "^3.6.7" }
+}

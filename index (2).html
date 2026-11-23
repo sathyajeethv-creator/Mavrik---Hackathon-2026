@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CareConnect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Noto+Sans+Malayalam:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Noto+Serif+Malayalam:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ea;--card:#ffffff;--ink:#0f1f2b;--mut:#55636d;--pri:#0f5560;--ps:#e2eeec;--ln:#ddd8cb;--red:#b42318;--grn:#13744a;--amb:#fbf0d3;--al:#94670f;--on:#fff;--gold:#c9973a;--sh:0 1px 2px rgba(15,31,43,.06),0 14px 34px -18px rgba(15,31,43,.28);--ease:cubic-bezier(.22,1,.36,1);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1315;--card:#122025;--ink:#eaf3f1;--mut:#9bb0b3;--pri:#52d0c0;--ps:#18312f;--ln:#27403f;--red:#ff9a90;--grn:#7ae0a5;--amb:#3a2e12;--al:#e6b04a;--on:#04201d;--gold:#e6b04a;--sh:0 1px 2px rgba(0,0,0,.4),0 16px 36px -18px rgba(0,0,0,.7);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1315;--card:#122025;--ink:#eaf3f1;--mut:#9bb0b3;--pri:#52d0c0;--ps:#18312f;--ln:#27403f;--red:#ff9a90;--grn:#7ae0a5;--amb:#3a2e12;--al:#e6b04a;--on:#04201d;--gold:#e6b04a;--sh:0 1px 2px rgba(0,0,0,.4),0 16px 36px -18px rgba(0,0,0,.7);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.55 "Atkinson Hyperlegible","Noto Sans Malayalam",system-ui,sans-serif}
+h1{font-size:1.8rem;line-height:1.2;margin:4px 0}h2{font-size:1.25rem;margin:0 0 8px}p{margin:6px 0}.mut{color:var(--mut)}.err{color:var(--red);font-weight:700}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 20px;background:var(--pri);color:var(--on)}header b{font-size:1.35rem}header .row>*{flex:0 0 auto}
+nav{display:flex;gap:8px;overflow-x:auto;padding:12px 16px 4px;max-width:900px;margin:0 auto}
+main,.home{max-width:900px;margin:0 auto;padding:12px 16px 120px;display:grid;gap:16px}
+.card{background:var(--card);border:2px solid var(--ln);border-radius:18px;padding:18px}.card.warn{border-color:var(--al);background:var(--amb)}.card.ok{border-color:var(--grn)}
+.b{font:inherit;font-weight:700;min-height:50px;padding:10px 18px;border-radius:12px;border:2px solid var(--pri);background:var(--pri);color:var(--on);cursor:pointer;transition:transform .15s,filter .15s}
+.b:hover{filter:brightness(1.1)}.b:active{transform:scale(.96)}.b.ghost{background:transparent;color:var(--pri)}.b.grn{background:var(--grn);border-color:var(--grn);color:var(--on)}.b.red{background:var(--red);border-color:var(--red);color:var(--on)}
+.b.sm{min-height:40px;padding:4px 12px}.b.big{display:block;width:100%;font-size:1.5rem;padding:20px;margin:10px 0}.b[disabled]{opacity:.5;cursor:not-allowed}
+.c{font:inherit;font-weight:700;white-space:nowrap;padding:8px 16px;border-radius:99px;border:2px solid var(--ln);background:var(--card);color:var(--ink);cursor:pointer;transition:background .2s}.c.a{background:var(--pri);border-color:var(--pri);color:var(--on)}
+.b:focus-visible,.c:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:4px solid var(--al);outline-offset:2px}
+input,select,textarea{font:inherit;width:100%;padding:10px 12px;border:2px solid var(--mut);border-radius:10px;background:var(--card);color:var(--ink)}label{display:block;font-weight:700;margin:10px 0 2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{flex:1 1 150px}
+.it{padding:10px 0;border-top:1px solid var(--ln);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}.it>*{flex:1 1 230px}
+.pill{display:inline-block;margin:2px 4px 2px 0;padding:1px 12px;border-radius:99px;background:var(--ps);color:var(--pri);font-weight:700;font-size:.88rem}.pill.w{background:var(--amb);color:var(--ink);border:1px solid var(--al)}.pill.g{background:var(--grn);color:var(--on)}
+.st{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:8px 0}.st div{background:var(--ps);border-radius:12px;padding:10px;color:var(--mut)}.st b{display:block;font-size:1.4rem;color:var(--ink)}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:6px;border-top:1px solid var(--ln)}
+.hero{background:linear-gradient(135deg,#0b4a6b,#0e7c6b);color:#fff;border-radius:24px;padding:32px;position:relative;overflow:hidden}.hero>*{position:relative}.hero p{opacity:.92}
+.blob{position:absolute!important;border-radius:50%;background:rgba(255,255,255,.1);animation:fl 8s ease-in-out infinite}
+.home .g2{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;align-items:start}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.chips span{background:rgba(255,255,255,.18);padding:6px 14px;border-radius:99px;font-weight:700}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.how .card b{font-size:1.1rem}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}.t{font:inherit;font-weight:700;border:2px solid var(--ln);background:var(--card);color:var(--ink);border-radius:16px;padding:16px 8px;cursor:pointer;transition:transform .2s,border-color .2s}.t:hover{transform:translateY(-3px)}.t.on{border-color:var(--pri);background:var(--ps)}.t i{display:block;font-style:normal;font-size:2rem}
+ol.sp,ol.ch{counter-reset:s;list-style:none;padding:0;margin:12px 0;display:grid;gap:6px;text-align:center;font-size:.82rem}ol.sp{grid-template-columns:repeat(5,1fr)}ol.ch{grid-template-columns:repeat(4,1fr)}
+ol li::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;margin:0 auto 4px;border-radius:50%;background:var(--ps);color:var(--mut);font-weight:700;transition:background .5s}
+ol.sp li.on::before{background:var(--grn);color:var(--on);content:"✓";animation:pop .4s}ol.sp li.wt::before{background:var(--al);color:#241800;animation:pulse 1.6s infinite}ol.ch li.on::before{background:var(--red);color:var(--on);animation:pop .4s}
+.wtx{color:var(--al);font-weight:700}.gtx{color:var(--grn);font-weight:700}ul.tl{margin:6px 0;padding-left:20px;color:var(--mut);font-size:.95rem}
+.sosf{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:88px;height:88px;border-radius:50%;border:0;background:var(--red);color:var(--on);font:700 1.3rem "Atkinson Hyperlegible",sans-serif;cursor:pointer;animation:ring 2s infinite;z-index:5}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.65);display:grid;place-items:center;padding:20px;z-index:9;animation:fade .2s}.ov .card{text-align:center;max-width:380px;width:100%}.cd{font-size:5rem;font-weight:700;color:var(--red);animation:pop .5s infinite alternate}
+.toast{position:fixed;left:50%;bottom:calc(120px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:99px;z-index:8;animation:fade .3s}
+svg.fp{width:84px;height:84px;color:var(--mut);display:block;margin:6px auto;overflow:hidden;border-radius:12px}svg.fp .sl{fill:var(--pri);opacity:0}.fp.scan{color:var(--pri)}.fp.scan .sl{opacity:1;animation:scan 1s linear infinite}.fp.done{color:var(--grn)}
+.plan.on{border-color:var(--grn);background:var(--ps)}
+.adm{border-color:#1b2a36;background:linear-gradient(160deg,#10202b,#1b3a4f);color:#fff}.adm label,.adm h2,.adm p{color:#fff}.adm input{border-color:#5b7385}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.rl{font:inherit;font-weight:700;text-align:center;border:2px solid var(--ln);background:var(--card);color:var(--ink);border-radius:14px;padding:12px 6px;cursor:pointer;transition:transform .2s,border-color .2s}.rl i{display:block;font-style:normal;font-size:1.6rem}.rl small{display:block;font-weight:400;color:var(--mut);font-size:.75rem}.rl.on{border-color:var(--pri);background:var(--ps);transform:translateY(-3px)}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--pri);color:var(--on);flex:0 0 44px}.ac{display:flex;gap:12px;align-items:center}
+.demo button{font:inherit;display:block;width:100%;text-align:left;background:var(--ps);color:var(--ink);border:0;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;transition:transform .15s}.demo button:hover{transform:translateX(4px)}
+.hg{font-size:3.5rem;display:block;animation:sw 2s ease-in-out infinite}@keyframes sw{50%{transform:rotate(180deg)}}
+.bar{height:8px;border-radius:99px;background:var(--ps);overflow:hidden;margin:12px 0}.bar i{display:block;height:100%;width:40%;background:var(--al);border-radius:99px;animation:sl 2s ease-in-out infinite}@keyframes sl{0%{margin-left:-40%}100%{margin-left:100%}}
+main.in>*{animation:up .45s both}main.in>*:nth-child(2){animation-delay:.07s}main.in>*:nth-child(3){animation-delay:.14s}main.in>*:nth-child(4){animation-delay:.21s}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{transform:scale(.6)}to{transform:scale(1)}}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(201,138,0,.25)}}@keyframes ring{0%{box-shadow:0 0 0 0 rgba(179,38,30,.55)}100%{box-shadow:0 0 0 26px rgba(179,38,30,0)}}
+@keyframes fl{50%{transform:translateY(-18px) scale(1.06)}}@keyframes scan{from{transform:translateY(0)}to{transform:translateY(84px)}}
+@media (max-width:760px){.home .g2{grid-template-columns:1fr}ol.sp,ol.ch{font-size:.7rem}h1{font-size:1.5rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+html{scroll-behavior:smooth}a.c{text-decoration:none;display:inline-block}a.c:focus-visible,header a.hl:focus-visible{outline:4px solid var(--al);outline-offset:2px}
+header a.hl{color:var(--on);font-weight:700;text-decoration:none;padding:6px 10px;border-radius:8px}header a.hl:hover{background:rgba(255,255,255,.18)}
+.ov .card.pay{text-align:left;max-width:460px;max-height:92vh;overflow:auto}.pay .cn{text-align:center}
+.sum{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--ps);padding:10px 14px;border-radius:12px;margin:8px 0}
+.bk{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:6px 0}.bk .t{padding:12px 6px;font-size:.95rem}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:8px 0}.kv dt{color:var(--mut)}.kv dd{margin:0;font-weight:700;word-break:break-word}
+.spin{width:54px;height:54px;border:6px solid var(--ps);border-top-color:var(--pri);border-radius:50%;margin:14px auto;animation:rot 1s linear infinite}@keyframes rot{to{transform:rotate(360deg)}}
+.tick{font-size:4rem;line-height:1;color:var(--grn);animation:pop .4s}.opt{font-weight:400;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* ===== Premium layer: depth, glass, motion, touch ===== */
+body{background:radial-gradient(1100px 560px at 90% -8%,color-mix(in srgb,var(--gold) 16%,transparent),transparent 62%),radial-gradient(900px 520px at -8% 6%,color-mix(in srgb,var(--pri) 13%,transparent),transparent 60%),var(--bg);background-attachment:fixed;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+h1,h2{letter-spacing:-.012em}h2{font-size:1.3rem}
+header{position:sticky;top:0;z-index:7;background:color-mix(in srgb,var(--pri) 92%,transparent);-webkit-backdrop-filter:saturate(1.5) blur(16px);backdrop-filter:saturate(1.5) blur(16px);box-shadow:0 10px 30px -18px rgba(0,0,0,.55);border-bottom:1px solid rgba(255,255,255,.14)}
+header>b{letter-spacing:.01em;display:flex;align-items:center;gap:8px}header>b::first-letter{color:var(--gold)}
+nav{scrollbar-width:none;scroll-snap-type:x proximity}nav::-webkit-scrollbar{display:none}nav .c{scroll-snap-align:start}
+.card{border:1.5px solid var(--ln);border-radius:22px;box-shadow:var(--sh);transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .3s,background .3s}
+.how .card:hover,.plan:hover{transform:translateY(-5px);box-shadow:0 2px 4px rgba(15,31,43,.08),0 28px 46px -20px rgba(15,31,43,.38)}
+.st div{border:1px solid color-mix(in srgb,var(--pri) 14%,transparent);transition:transform .4s var(--ease),background .3s}.st div:hover{transform:translateY(-3px)}.st b{font-variant-numeric:tabular-nums}
+.b{border-radius:15px;border-color:transparent;background:linear-gradient(180deg,color-mix(in srgb,var(--pri) 86%,#fff),var(--pri));box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 10px 20px -10px color-mix(in srgb,var(--pri) 80%,transparent);transition:transform .35s var(--ease),box-shadow .35s var(--ease),filter .2s;will-change:transform;touch-action:manipulation}
+.b:hover{filter:none;transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 16px 26px -10px color-mix(in srgb,var(--pri) 85%,transparent)}
+.b:active{transform:scale(.965);transition-duration:.1s;box-shadow:inset 0 2px 6px rgba(0,0,0,.25)}
+.b.ghost{background:transparent;border-color:var(--pri);box-shadow:none}.b.ghost:hover{background:var(--ps)}
+.b.grn{background:linear-gradient(180deg,color-mix(in srgb,var(--grn) 84%,#fff),var(--grn));border-color:transparent}.b.red{background:linear-gradient(180deg,color-mix(in srgb,var(--red) 84%,#fff),var(--red));border-color:transparent}
+.c{transition:background .3s var(--ease),color .3s,transform .3s var(--ease),box-shadow .3s}.c:hover{transform:translateY(-1px)}.c:active{transform:scale(.95)}.c.a{box-shadow:0 8px 16px -8px color-mix(in srgb,var(--pri) 80%,transparent)}
+.t,.rl{box-shadow:0 1px 2px rgba(15,31,43,.05);touch-action:manipulation}.t:active,.rl:active{transform:scale(.95)}.t.on,.rl.on{box-shadow:0 0 0 4px color-mix(in srgb,var(--pri) 20%,transparent),0 12px 22px -14px var(--pri)}
+input,select,textarea{border-width:1.5px;transition:border-color .25s,box-shadow .25s,background .25s}input:focus,select:focus,textarea:focus{border-color:var(--pri);box-shadow:0 0 0 4px color-mix(in srgb,var(--pri) 22%,transparent);outline:none}
+.hero{background:radial-gradient(520px 280px at 92% 0%,rgba(201,151,58,.42),transparent 65%),radial-gradient(420px 260px at 0% 100%,rgba(82,208,192,.22),transparent 70%),linear-gradient(135deg,#0b3640 0%,#0f5560 52%,#157568 100%);box-shadow:0 30px 60px -30px rgba(11,54,64,.7);border:1px solid rgba(255,255,255,.12)}
+.hero h1{font-size:clamp(1.9rem,5.4vw,2.9rem);line-height:1.1;letter-spacing:-.02em}
+.chips span{border:1px solid rgba(255,255,255,.28);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .35s var(--ease),background .3s}.chips span:hover{transform:translateY(-3px);background:rgba(255,255,255,.28)}
+.av{background:linear-gradient(135deg,var(--pri),color-mix(in srgb,var(--pri) 80%,var(--gold)));box-shadow:0 8px 16px -8px var(--pri)}
+.pill{border:1px solid color-mix(in srgb,var(--pri) 18%,transparent)}
+.it{transition:background .3s}.it:hover{background:color-mix(in srgb,var(--ps) 45%,transparent)}
+.sosf{background:radial-gradient(circle at 30% 25%,color-mix(in srgb,var(--red) 70%,#fff),var(--red) 65%);box-shadow:0 14px 30px -8px rgba(180,35,24,.7);transition:transform .35s var(--ease)}.sosf:active{transform:scale(.9)}
+.ov{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:rgba(6,18,22,.58)}.ov .card{animation:modal .5s var(--ease)}
+.toast{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 18px 40px -14px rgba(0,0,0,.6);animation:toastin .55s var(--ease);font-weight:700}
+main.in>*{animation:rise .45s var(--ease) both}.home.in>*{animation:rise .5s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes modal{from{opacity:0;transform:translateY(30px) scale(.93)}}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,18px) scale(.94)}}
+@keyframes live{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--grn) 60%,transparent)}100%{box-shadow:0 0 0 10px transparent}}
+@keyframes shim{from{background-position:-200% 0}to{background-position:200% 0}}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--grn);animation:live 2s infinite;margin-right:6px}.dot.w{background:var(--al);animation:none}
+.hs{display:grid;gap:12px}.hi{display:grid;gap:8px;padding:16px;border:1.5px solid var(--ln);border-radius:18px;background:var(--card);transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s}.hi:hover{transform:translateY(-3px);box-shadow:var(--sh);border-color:var(--pri)}
+.hi .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.hi .nm{font-weight:700;font-size:1.08rem}
+.km{flex:0 0 auto;background:linear-gradient(135deg,var(--pri),color-mix(in srgb,var(--pri) 75%,var(--gold)));color:var(--on);font-weight:700;padding:4px 12px;border-radius:99px;font-variant-numeric:tabular-nums}
+.sk{height:84px;border-radius:18px;background:linear-gradient(90deg,var(--ps) 25%,color-mix(in srgb,var(--ps) 50%,var(--card)) 50%,var(--ps) 75%);background-size:200% 100%;animation:shim 1.2s linear infinite}
+.sw{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.sw .c{font-size:.92rem;padding:6px 14px}
+
+:root{--hd:"Fraunces","Noto Serif Malayalam",Georgia,serif}
+h1,h2,.br,header>b,.hero h1,.st b,.cd,.tick{font-family:var(--hd);font-weight:700}.st b,.cd{font-variant-numeric:lining-nums tabular-nums}h1{letter-spacing:-.015em}header>b{font-size:1.45rem}
+main,.home{grid-template-columns:minmax(0,1fr)}.card,.hi,.it>*,.home .g2>*{min-width:0}
+.it,.it .mut,.kv dd,.hi,.pill{overflow-wrap:anywhere}
+.t.lk{opacity:.78}.t{position:relative}.lkb{position:absolute;top:6px;right:6px;font-size:.7rem;font-weight:700;background:var(--amb);color:var(--al);padding:2px 8px;border-radius:99px}
+.lockbox{border:1.5px dashed var(--gold);background:var(--amb);border-radius:18px;padding:16px;margin-top:12px}.lockbox b{font-size:1.05rem}
+@media (max-width:520px){
+header{padding:8px 14px;gap:6px}header>b{font-size:1.2rem}header .row{gap:6px}header .b.sm{padding:6px 12px;min-height:38px;font-size:.88rem}
+.hi{padding:14px;gap:10px}.hi .top{flex-wrap:wrap}.hi .nm{font-size:1rem;line-height:1.25}.hi .mut{font-size:.88rem;line-height:1.35}
+.hi .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.hi .row .b{width:100%;padding:9px 6px;font-size:.88rem;min-height:42px}.hi .row .b:last-child{grid-column:1/-1}
+.km{padding:3px 10px;font-size:.85rem}.card{border-radius:18px;padding:16px}
+}
+.mut a{color:var(--pri);font-weight:700}.hi .top>span:first-child{line-height:1.35}.hi .top>span:first-child .nm{display:inline-block;margin-bottom:2px}
+.ackl{margin:10px 0 0;color:var(--grn)}
+.sms{margin:10px 0;padding:12px 14px;border-radius:14px;background:var(--ps);border:1px dashed var(--pri)}.sms small{color:var(--mut)}.code{font-family:var(--hd);font-size:1.4rem;letter-spacing:.18em;color:var(--pri)}
+/* ===== Footer ===== */
+.ft{margin-top:24px;background:radial-gradient(520px 260px at 95% 0%,rgba(201,151,58,.32),transparent 65%),linear-gradient(160deg,#0a323b,#0f5560 70%,#146d63);color:#fff;border-top:1px solid rgba(255,255,255,.14)}
+.ft .in2{max-width:900px;margin:0 auto;padding:40px 20px 28px;display:grid;gap:28px}
+.ft.el .in2{padding-bottom:120px}
+.ft .cols{display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:28px}
+.ft h3{margin:0 0 10px;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:#e9c777}
+.ft p{margin:4px 0;opacity:.9}.ft .br{font-size:1.5rem;font-weight:700;letter-spacing:.01em}.ft .br span{color:#e9c777}
+.ft a{color:#fff;text-decoration:none;opacity:.92;transition:opacity .2s,transform .3s var(--ease);display:inline-block}.ft a:hover{opacity:1;transform:translateX(3px);text-decoration:underline}
+.ft ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ft .ct{display:grid;gap:10px}.ft .ct div{display:flex;gap:10px;align-items:flex-start}.ft .ct i{font-style:normal;flex:0 0 22px}
+.ft .soc{display:flex;gap:8px;flex-wrap:wrap}.ft .soc a{padding:8px 16px;border-radius:99px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);font-weight:700;font-size:.92rem}.ft .soc a:hover{transform:translateY(-3px);background:rgba(255,255,255,.2);text-decoration:none}
+.ft .sos{display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:12px 16px}.ft .sos b{color:#ffb4ab}
+.ft .bt{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.16);padding-top:16px;font-size:.88rem;opacity:.8}
+@media (max-width:760px){.ft .cols{grid-template-columns:1fr}.home .g2{grid-template-columns:minmax(0,1fr)}}
+textarea.imp{min-height:120px;font:.85rem/1.4 ui-monospace,Menlo,monospace}
+@media (prefers-reduced-motion:reduce){.dot,.sk{animation:none}}
+/* ===== v4: family chat, reminders ===== */
+.chat{display:grid;gap:8px;max-height:280px;overflow:auto;margin:8px 0;padding:2px}
+.bub{max-width:86%;padding:8px 12px;border-radius:16px;background:var(--ps);justify-self:start}
+.bub.me{justify-self:end;background:var(--pri);color:var(--on)}
+.bub.ok{border:2px solid var(--grn)}.bub.ping{border:2px dashed var(--al)}
+.bub small{display:block;opacity:.75;font-size:.75rem}
+.livest{display:flex;gap:12px;align-items:center}.livest .big{font-size:2.4rem;line-height:1}
+.cin{display:flex;gap:8px}.cin input{flex:1}.cin .b{min-height:44px}
+ol.ch{grid-template-columns:repeat(auto-fit,minmax(78px,1fr))}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),A={},V={elder:{},vol:{},donor:{},family:{},admin:{}};
+const PORT={elder:'Elder',vol:'Volunteer',donor:'Donor',family:'Family',admin:'Admin'};
+const NAV={family:[['dash','Family dashboard'],['fb','Feedback & Complaints']],elder:[['dash','Dashboard'],['svc','Services'],['hosp','Hospitals'],['ppl','People'],['prof','Profile'],['sub','Subscription'],['fb','Feedback & Complaints']],vol:[['dash','Tasks'],['prof','Profile'],['fb','Feedback & Complaints']],donor:[['dash','Donate'],['fb','Feedback & Complaints']],admin:[['dash','Overview'],['eld','Elders'],['hosp','Hospital data'],['vols','Access'],['funds','Funds'],['fb','Feedback & Complaints']]};
+const SV=[['🏠','Check-in visit'],['🏥','Hospital visit'],['🚕','Cab'],['💊','Medicine'],['🛒','Groceries'],['✨','Anything else']];
+const PLANS=[['free','Free','Rs. 0','SOS alert and free volunteer check-in visits at home'],['care','Care','Rs. 499 / month','Everything in Free, plus all travel (cab or vehicle, including hospital trips), medicine, groceries, other errands and the family dashboard']];
+const PAID=['Hospital visit','Cab','Medicine','Groceries','Anything else'],FREE_SV=['Check-in visit','SOS'];
+const PRICE={care:499},BANKS=['State Bank of India','Federal Bank','HDFC Bank','ICICI Bank','Canara Bank','South Indian Bank'];
+const T={'Light / dark':'ലൈറ്റ് / ഡാർക്ക്','Log out':'ലോഗ് ഔട്ട്','Log in':'ലോഗ് ഇൻ','Sign up':'സൈൻ അപ്പ്','How it works':'എങ്ങനെ പ്രവർത്തിക്കുന്നു','Email':'ഇമെയിൽ','Password':'പാസ്‌വേഡ്','Full name':'മുഴുവൻ പേര്','Create your account':'അക്കൗണ്ട് ഉണ്ടാക്കുക','Create account':'അക്കൗണ്ട് ഉണ്ടാക്കുക','Create a new account':'പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കുക','I already have an account':'എനിക്ക് അക്കൗണ്ട് ഉണ്ട്','Living alone, never alone.':'ഒറ്റയ്ക്ക് താമസിച്ചാലും, ഒരിക്കലും ഒറ്റയ്ക്കല്ല.','Wrong email or password.':'ഇമെയിലോ പാസ്‌വേഡോ തെറ്റാണ്.',
+'Dashboard':'ഡാഷ്ബോർഡ്','Fingerprint verified':'വിരലടയാളം പരിശോധിച്ചു','Approved by CareConnect':'CareConnect അംഗീകരിച്ചു','Send OTP to':'OTP അയയ്ക്കൂ:','Send a new OTP':'പുതിയ OTP അയയ്ക്കൂ','Verified by OTP':'OTP വഴി സ്ഥിരീകരിച്ചു','tasks':'ജോലികൾ','Check-in visit':'ചെക്ക്-ഇൻ സന്ദർശനം','Request a check-in visit':'ചെക്ക്-ഇൻ സന്ദർശനം ആവശ്യപ്പെടൂ','Cab':'ക്യാബ്','Vehicle needed':'വാഹനം വേണം','No vehicle needed':'വാഹനം വേണ്ട','Do you need a vehicle?':'വാഹനം ആവശ്യമുണ്ടോ?','See plans':'പ്ലാനുകൾ കാണുക','About us':'ഞങ്ങളെക്കുറിച്ച്','Quick links':'ലിങ്കുകൾ','Contact':'ബന്ധപ്പെടാൻ','Follow us':'ഞങ്ങളെ പിന്തുടരൂ','In an emergency':'അത്യാഹിതത്തിൽ','Ambulance':'ആംബുലൻസ്','Emergency':'അത്യാഹിതം','Hospitals':'ആശുപത്രികൾ','Nearest hospitals':'അടുത്തുള്ള ആശുപത്രികൾ','Search hospital or place':'ആശുപത്രി / സ്ഥലം തിരയൂ','Directions':'വഴി','Call':'വിളിക്കൂ','Request a visit here':'ഇവിടേക്ക് സന്ദർശനം ആവശ്യപ്പെടൂ','All':'എല്ലാം','Emergency 24x7':'അത്യാഹിതം 24x7','No hospitals match.':'ഒന്നും കണ്ടെത്തിയില്ല.','Show more':'കൂടുതൽ കാണിക്കൂ','Services':'സേവനങ്ങൾ','People':'ആളുകൾ','Profile':'പ്രൊഫൈൽ','Subscription':'സബ്സ്ക്രിപ്ഷൻ','Feedback & Complaints':'അഭിപ്രായങ്ങളും പരാതികളും',
+'Hospital visit':'ആശുപത്രി സന്ദർശനം','Medicine':'മരുന്ന്','Groceries':'പലചരക്ക്','Anything else':'മറ്റെന്തെങ്കിലും',
+'Hello':'നമസ്കാരം','Waiting for the admin to send you a code…':'അഡ്മിൻ നിങ്ങൾക്ക് കോഡ് അയയ്ക്കുന്നതിനായി കാത്തിരിക്കുന്നു…','Code sent to you. Tell it to the volunteer only if you know them…':'കോഡ് അയച്ചിട്ടുണ്ട്. സന്നദ്ധപ്രവർത്തകനെ അറിയാമെങ്കിൽ മാത്രം അത് പറയുക…','Your CareConnect code is':'നിങ്ങളുടെ കെയർകണക്ട് കോഡ്','Tell this code to the volunteer only if you know them. Valid for 5 minutes.':'സന്നദ്ധപ്രവർത്തകനെ അറിയാമെങ്കിൽ മാത്രം ഈ കോഡ് പറഞ്ഞുകൊടുക്കുക. 5 മിനിറ്റ് സാധുതയുണ്ട്.','This code has expired.':'ഈ കോഡിന്റെ കാലാവധി കഴിഞ്ഞു.','Ask the admin to send a new code.':'പുതിയ കോഡ് അയയ്ക്കാൻ അഡ്മിനോട് ആവശ്യപ്പെടുക.','Everything you need, one tap away.':'വേണ്ടതെല്ലാം ഒരു ടാപ്പിൽ.','Someone is at your door':'ആരോ നിങ്ങളുടെ വാതിൽക്കൽ ഉണ്ട്','fingerprint-verified volunteer':'വിരലടയാളം പരിശോധിച്ച സന്നദ്ധപ്രവർത്തകൻ','Is this right?':'ഇത് ശരിയാണോ?','Yes, let them in':'അതെ, അകത്തു കയറ്റൂ','No, I don’t know them':'ഇല്ല, എനിക്ക് അറിയില്ല',
+'Daily check-in':'ദിവസേനയുള്ള ചെക്ക്-ഇൻ','Alert in progress. Help is being arranged.':'അലർട്ട് അയച്ചു. സഹായം ഒരുക്കുന്നു.','Last check-in:':'അവസാന ചെക്ക്-ഇൻ:','I’m okay':'എനിക്ക് സുഖമാണ്','Demo: simulate a missed check-in':'ഡെമോ: ചെക്ക്-ഇൻ മുടങ്ങിയാൽ',
+'SOS pressed':'SOS അമർത്തി','Check-in missed':'ചെക്ക്-ഇൻ മുടങ്ങി','Contacts and family alerted':'ബന്ധുക്കളെ അറിയിച്ചു','Nearest volunteer alerted':'അടുത്തുള്ള സന്നദ്ധപ്രവർത്തകനെ അറിയിച്ചു','Admin calls 108 / 112':'അഡ്മിൻ 108 / 112 വിളിക്കുന്നു',
+'Quick services':'വേഗത്തിലുള്ള സേവനങ്ങൾ','Your plan':'നിങ്ങളുടെ പ്ലാൻ','Trusted people':'വിശ്വസ്ത വ്യക്തികൾ','Requests done':'പൂർത്തിയായ അഭ്യർത്ഥനകൾ','Volunteer':'സന്നദ്ധപ്രവർത്തകൻ',
+'Requested':'അഭ്യർത്ഥിച്ചു','Volunteer accepted':'സ്വീകരിച്ചു','At your door':'വാതിൽക്കൽ','Verified at home':'സ്ഥിരീകരിച്ചു','Done':'കഴിഞ്ഞു','Waiting for a volunteer…':'സന്നദ്ധപ്രവർത്തകനായി കാത്തിരിക്കുന്നു…','Waiting: your volunteer is on the way…':'നിങ്ങളുടെ സന്നദ്ധപ്രവർത്തകൻ വരുന്നു…','Waiting for your confirmation…':'നിങ്ങളുടെ സ്ഥിരീകരണത്തിനായി കാത്തിരിക്കുന്നു…','Verified at your home':'വീട്ടിൽ സ്ഥിരീകരിച്ചു','Completed':'പൂർത്തിയായി',
+'What do you need?':'നിങ്ങൾക്ക് എന്താണ് വേണ്ടത്?','Details':'വിവരങ്ങൾ','Which hospital, and what time?':'ഏത് ആശുപത്രി, എപ്പോൾ?','What should the volunteer get or do?':'സന്നദ്ധപ്രവർത്തകൻ എന്താണ് ചെയ്യേണ്ടത്?','When?':'എപ്പോൾ?','Today':'ഇന്ന്','Tomorrow':'നാളെ','This week':'ഈ ആഴ്ച','Repeat?':'ആവർത്തിക്കണോ?','Only once':'ഒരു തവണ മാത്രം','Every week':'എല്ലാ ആഴ്ചയും','Every month':'എല്ലാ മാസവും','Prescription photo':'കുറിപ്പടിയുടെ ഫോട്ടോ','Prescription attached':'കുറിപ്പടി ചേർത്തു','Call a volunteer':'സന്നദ്ധപ്രവർത്തകനെ വിളിക്കൂ',
+'Volunteers free right now':'ഇപ്പോൾ ഒഴിവുള്ള സന്നദ്ധപ്രവർത്തകർ','● Free':'● ഒഴിവുണ്ട്','Ask':'ചോദിക്കൂ','My requests':'എന്റെ അഭ്യർത്ഥനകൾ','No requests yet.':'ഇതുവരെ അഭ്യർത്ഥനകൾ ഇല്ല.','Rate':'റേറ്റ് ചെയ്യൂ','Repeats:':'ആവർത്തനം:',
+'My trusted people':'എന്റെ വിശ്വസ്ത വ്യക്തികൾ','They must accept before they see anything about you. You can remove them any time.':'അവർ സ്വീകരിക്കാതെ നിങ്ങളെക്കുറിച്ച് ഒന്നും കാണില്ല. എപ്പോൾ വേണമെങ്കിലും നീക്കം ചെയ്യാം.','Accepted':'സ്വീകരിച്ചു','Waiting to accept':'സ്വീകരിക്കാൻ കാത്തിരിക്കുന്നു','Remove':'നീക്കം ചെയ്യൂ','Edit':'തിരുത്തൂ','Invite someone':'ഒരാളെ ക്ഷണിക്കൂ','Update details':'വിവരങ്ങൾ പുതുക്കൂ','Name':'പേര്','Phone number':'ഫോൺ നമ്പർ','(optional)':'(നിർബന്ധമില്ല)','Name and phone are required. Email is optional.':'പേരും ഫോൺ നമ്പറും നിർബന്ധമാണ്. ഇമെയിൽ നിർബന്ധമില്ല.','They will be my':'അവർ എന്റെ','Safety contact':'സുരക്ഷാ കോൺടാക്ട്','Neighbour':'അയൽക്കാരൻ','Family, neighbour and admin alerted':'കുടുംബം, അയൽക്കാരൻ, അഡ്മിൻ എന്നിവരെ അറിയിച്ചു','Free volunteers alerted':'ഒഴിവുള്ള സന്നദ്ധപ്രവർത്തകരെ അറിയിച്ചു','Family':'കുടുംബം','Send invitation':'ക്ഷണം അയയ്ക്കൂ','Cancel':'റദ്ദാക്കൂ','Please enter their name.':'അവരുടെ പേര് നൽകൂ.','Please enter their phone number.':'അവരുടെ ഫോൺ നമ്പർ നൽകൂ.','Enter a valid phone number (10 digits).':'ശരിയായ ഫോൺ നമ്പർ നൽകൂ (10 അക്കങ്ങൾ).','Enter a valid email, like name@example.com.':'ശരിയായ ഇമെയിൽ നൽകൂ, ഉദാ: name@example.com.','Invitation sent by SMS and email':'SMS ആയും ഇമെയിൽ ആയും ക്ഷണം അയച്ചു','Invitation sent by SMS':'SMS ആയി ക്ഷണം അയച്ചു','Details updated':'വിവരങ്ങൾ പുതുക്കി',
+'Home address':'വീട്ടുവിലാസം','Daily check-in time':'ദിവസേനയുള്ള ചെക്ക്-ഇൻ സമയം','Plan':'പ്ലാൻ','Edit profile':'പ്രൊഫൈൽ തിരുത്തൂ','Save changes':'മാറ്റങ്ങൾ സേവ് ചെയ്യൂ','Please enter your name.':'നിങ്ങളുടെ പേര് നൽകൂ.','Profile updated':'പ്രൊഫൈൽ പുതുക്കി','Free':'സൗജന്യം','Care':'കെയർ','Care+':'കെയർ+','Rs. 0':'Rs. 0','Rs. 499 / month':'Rs. 499 / മാസം',
+'Current plan':'നിലവിലെ പ്ലാൻ','Active':'സജീവം','Renews on':'പുതുക്കുന്ന തീയതി','Choose a plan':'ഒരു പ്ലാൻ തിരഞ്ഞെടുക്കൂ','Choose':'തിരഞ്ഞെടുക്കൂ','Pay and choose':'പണമടച്ച് തിരഞ്ഞെടുക്കൂ','Payments are simulated in this prototype. No real money is charged.':'ഇത് ഡെമോ പേയ്മെന്റ് ആണ്. യഥാർത്ഥ പണം ഈടാക്കില്ല.','Payment history':'പേയ്മെന്റ് ചരിത്രം','No payments yet.':'ഇതുവരെ പേയ്മെന്റുകൾ ഇല്ല.','Date':'തീയതി','Method':'രീതി','Amount':'തുക','Reference':'റഫറൻസ്','Plan updated':'പ്ലാൻ പുതുക്കി','Next renewal':'അടുത്ത പുതുക്കൽ',
+'Secure payment':'സുരക്ഷിത പേയ്മെന്റ്','This is a demo. No real money is charged. Please do not enter real card or bank details.':'ഇത് ഡെമോ ആണ്. യഥാർത്ഥ പണം ഈടാക്കില്ല. യഥാർത്ഥ കാർഡ്/ബാങ്ക് വിവരങ്ങൾ നൽകരുത്.','Card':'കാർഡ്','Net banking':'നെറ്റ് ബാങ്കിങ്','UPI ID':'UPI ഐഡി','Demo: try ammini@okfederal':'ഡെമോ: ammini@okfederal','Name on card':'കാർഡിലെ പേര്','Card number':'കാർഡ് നമ്പർ','Expiry (MM/YY)':'കാലാവധി (MM/YY)','Choose your bank':'നിങ്ങളുടെ ബാങ്ക് തിരഞ്ഞെടുക്കൂ','Pay':'അടയ്ക്കൂ','Please wait':'ദയവായി കാത്തിരിക്കൂ','Waiting for approval in your UPI app…':'UPI ആപ്പിൽ അനുമതിക്കായി കാത്തിരിക്കുന്നു…','Contacting your bank…':'ബാങ്കുമായി ബന്ധപ്പെടുന്നു…','Redirecting to':'ഇതിലേക്ക് പോകുന്നു:','Confirming your payment…':'പേയ്മെന്റ് സ്ഥിരീകരിക്കുന്നു…','Payment successful':'പേയ്മെന്റ് വിജയിച്ചു','Bank verification':'ബാങ്ക് സ്ഥിരീകരണം','Enter the 6-digit OTP sent to your mobile number ending 2345.':'2345-ൽ അവസാനിക്കുന്ന മൊബൈലിലേക്ക് അയച്ച 6 അക്ക OTP നൽകൂ.','Demo OTP: 123456':'ഡെമോ OTP: 123456','Verify and pay':'സ്ഥിരീകരിച്ച് അടയ്ക്കൂ','Cancel payment':'പേയ്മെന്റ് റദ്ദാക്കൂ','Enter a valid UPI ID, like name@bank.':'ശരിയായ UPI ഐഡി നൽകൂ, ഉദാ: name@bank.','Enter the name on the card.':'കാർഡിലെ പേര് നൽകൂ.','Card number must be 16 digits.':'കാർഡ് നമ്പർ 16 അക്കം വേണം.','Enter the expiry as MM/YY.':'കാലാവധി MM/YY ആയി നൽകൂ.','This card has expired.':'ഈ കാർഡിന്റെ കാലാവധി കഴിഞ്ഞു.','CVV must be 3 digits.':'CVV 3 അക്കം വേണം.','Choose your bank first.':'ആദ്യം ബാങ്ക് തിരഞ്ഞെടുക്കൂ.','Wrong OTP. In this demo the OTP is 123456.':'OTP തെറ്റാണ്. ഡെമോ OTP 123456 ആണ്.',
+'Feedback and complaints':'അഭിപ്രായങ്ങളും പരാതികളും','Feedback':'അഭിപ്രായം','Complaint':'പരാതി','Safety report':'സുരക്ഷാ റിപ്പോർട്ട്','Tell us what is working and what we can do better.':'എന്താണ് നന്നായി പോകുന്നതെന്നും എന്ത് മെച്ചപ്പെടുത്താമെന്നും പറയൂ.','Something went wrong? Tell us and the admin will look into it. You get a reference number.':'എന്തെങ്കിലും തെറ്റ് സംഭവിച്ചോ? പറയൂ, അഡ്മിൻ പരിശോധിക്കും. നിങ്ങൾക്ക് ഒരു റഫറൻസ് നമ്പർ ലഭിക്കും.','Report anything that felt unsafe. The admin sees it straight away.':'സുരക്ഷിതമല്ലെന്ന് തോന്നിയ എന്തും അറിയിക്കൂ. അഡ്മിൻ ഉടൻ കാണും.','Complaint about':'പരാതി ഏതിനെക്കുറിച്ച്','A volunteer':'ഒരു സന്നദ്ധപ്രവർത്തകൻ','A service request':'ഒരു സേവന അഭ്യർത്ഥന','Payment or subscription':'പേയ്മെന്റ് / സബ്സ്ക്രിപ്ഷൻ','The app':'ആപ്പ്','Something else':'മറ്റെന്തെങ്കിലും','Your message':'നിങ്ങളുടെ സന്ദേശം','Or say it with your voice':'അല്ലെങ്കിൽ ശബ്ദത്തിൽ പറയൂ','⏹ Stop recording':'⏹ റെക്കോർഡിങ് നിർത്തൂ','🎤 Record a voice note':'🎤 ശബ്ദസന്ദേശം റെക്കോർഡ് ചെയ്യൂ','Recording… tap stop when you are done.':'റെക്കോർഡ് ചെയ്യുന്നു… കഴിഞ്ഞാൽ സ്റ്റോപ്പ് അമർത്തൂ.','Delete voice note':'ശബ്ദസന്ദേശം ഡിലീറ്റ് ചെയ്യൂ','Send feedback':'അഭിപ്രായം അയയ്ക്കൂ','Submit complaint':'പരാതി സമർപ്പിക്കൂ','Send safety report':'സുരക്ഷാ റിപ്പോർട്ട് അയയ്ക്കൂ','My messages':'ഞാൻ അയച്ചവ','Nothing sent yet.':'ഒന്നും അയച്ചിട്ടില്ല.','In review':'പരിഗണനയിൽ','Resolved':'പരിഹരിച്ചു','Please type or record a message first':'ആദ്യം സന്ദേശം ടൈപ്പ് ചെയ്യുകയോ റെക്കോർഡ് ചെയ്യുകയോ ചെയ്യൂ','Sent to the admin. Thank you.':'അഡ്മിന് അയച്ചു. നന്ദി.','The microphone is not available here. Please type your message.':'ഇവിടെ മൈക്രോഫോൺ ലഭ്യമല്ല. സന്ദേശം ടൈപ്പ് ചെയ്യൂ.',
+'Check-in saved. Thank you!':'ചെക്ക്-ഇൻ സേവ് ചെയ്തു. നന്ദി!','Request sent. Volunteers nearby are being notified.':'അഭ്യർത്ഥന അയച്ചു. അടുത്തുള്ളവരെ അറിയിക്കുന്നു.','Verified at home ✓':'വീട്ടിൽ സ്ഥിരീകരിച്ചു ✓','Thanks for rating!':'റേറ്റിങ്ങിന് നന്ദി!','Sending SOS':'SOS അയയ്ക്കുന്നു','Your contacts, family and nearby volunteers will be alerted.':'നിങ്ങളുടെ കോൺടാക്ടുകളെയും കുടുംബത്തെയും അടുത്തുള്ള സന്നദ്ധപ്രവർത്തകരെയും അറിയിക്കും.','Cancel, I pressed by mistake':'റദ്ദാക്കൂ, അബദ്ധത്തിൽ അമർത്തിയതാണ്'};
+const L=()=>S.lang=='ml'&&(!S.me||S.me.role=='elder'),t=s=>L()&&T[s]||s;
+const ER=k=>S.fe&&S.fe[k]?`<p class="err" role="alert">${S.fe[k]}</p>`:'';
+const PF=()=>{const m=S.me,el=m.role=='elder';
+if(!S.edit){const R=[['Name',m.name],['Phone number',m.phone||'—'],['Email',m.email]].concat(el?[['Home address',m.addr||'—'],['Daily check-in time',m.ct||'—'],['Plan',t(PLANS.find(p=>p[0]==m.plan)[1])]]:[]);
+return `<section class="card"><div class="ac"><span class="av" style="width:64px;height:64px;flex-basis:64px;font-size:1.6rem">${m.name[0]}</span><span><h2 style="margin:0">${m.name}</h2>${pill(PORT[m.role])}</span></div><dl class="kv" style="margin-top:14px">${R.map(r=>`<dt>${t(r[0])}</dt><dd>${r[1]}</dd>`).join('')}</dl><button class="b big ghost" onclick="A.edit()">✏️ ${t('Edit profile')}</button></section>`}
+return `<section class="card"><h2>${t('Edit profile')}</h2>${fld('sn',t('Name')+' *')}${ER('sn')}${fld('sp',t('Phone number'),'tel','inputmode="tel"')}${ER('sp')}${el?fld('sa',t('Home address'))+fld('sc',t('Daily check-in time'),'time'):''}<button class="b big" onclick="A.save()">${t('Save changes')}</button><button class="b big ghost" onclick="A.pcan()">${t('Cancel')}</button></section>`};
+const FB=()=>{const ty=S.f.ft||'Feedback',AB=['A volunteer','A service request','Payment or subscription','The app','Something else'],IN={Feedback:'Tell us what is working and what we can do better.',Complaint:'Something went wrong? Tell us and the admin will look into it. You get a reference number.','Safety report':'Report anything that felt unsafe. The admin sees it straight away.'};
+return `<section class="card"><h2>${t('Feedback and complaints')}</h2><div class="tiles">${[['Feedback','💬'],['Complaint','⚠️'],['Safety report','🚨']].map(x=>`<button type="button" class="t ${ty==x[0]?'on':''}" onclick="A.ft('${x[0]}')"><i>${x[1]}</i>${t(x[0])}</button>`).join('')}</div><p class="mut" style="margin-top:12px">${t(IN[ty])}</p>${ty=='Complaint'?`<label for="fa">${t('Complaint about')}</label><select id="fa" onchange="S.f.fa=this.value">${AB.map(o=>`<option value="${o}" ${S.f.fa==o?'selected':''}>${t(o)}</option>`).join('')}</select>`:''}<label for="fm">${t('Your message')}</label><textarea id="fm" rows="3" oninput="S.f.fm=this.value">${S.f.fm||''}</textarea>${S.me.role=='elder'?`<label>${t('Or say it with your voice')}</label><button class="b big ${S.recording?'red':'ghost'}" onclick="A.rec()">${S.recording?t('⏹ Stop recording'):t('🎤 Record a voice note')}</button>${S.recording?`<div class="bar"><i></i></div><p class="mut">${t('Recording… tap stop when you are done.')}</p>`:''}${S.vn?`<audio controls src="${S.vn}" style="width:100%"></audio><button class="b ghost sm" onclick="A.vdel()">${t('Delete voice note')}</button>`:''}`:''}<button class="b big" onclick="A.fb()">${t({Feedback:'Send feedback',Complaint:'Submit complaint','Safety report':'Send safety report'}[ty])}</button></section><section class="card"><h2>${t('My messages')}</h2>${S.fb.filter(x=>x.by==S.me.name).map(x=>`<div class="it"><span>${pill(t(x.t),x.t=='Feedback'?'':'w')}${x.ref?pill(x.ref):''}${x.ab?pill(t(x.ab)):''}<br>${x.m}${x.vn?'<br><audio controls src="'+x.vn+'" style="width:100%"></audio>':''}</span>${pill(t(x.st=='Open'?'In review':'Resolved'),x.st=='Open'?'w':'g')}</div>`).join('')||`<p class="mut">${t('Nothing sent yet.')}</p>`}</section>`};
+const payM=()=>{const y=S.py,pl=PLANS.find(p=>p[0]==y.p),amt=PRICE[y.p],B=(c,a,x)=>`<button class="b big ${c}" onclick="${a}">${x}</button>`,e=y.e?`<p class="err" role="alert">${y.e}</p>`:'';let h;
+if(y.step=='proc')h=`<div class="cn"><h2>${t('Please wait')}</h2><div class="spin"></div><p>${y.msg}</p></div>`;
+else if(y.step=='ok'){const r=y.rec;h=`<div class="cn"><div class="tick">✓</div><h2>${t('Payment successful')}</h2></div><dl class="kv">${[['Plan',t(r.plan)],['Amount','₹'+r.amt],['Method',r.mt],['Reference',r.ref],['Date',r.at],['Next renewal',r.nx]].map(x=>`<dt>${t(x[0])}</dt><dd>${x[1]}</dd>`).join('')}</dl>${B('grn','A.pclose()',t('Done'))}`}
+else if(y.step=='otp')h=`<h2>🏦 ${y.m=='net'?y.bank:t('Bank verification')}</h2><p>${t('Enter the 6-digit OTP sent to your mobile number ending 2345.')}</p><p class="mut">${t('Demo OTP: 123456')}</p>${fld('potp','OTP','text','inputmode="numeric" maxlength="6" autocomplete="one-time-code"')}${e}${B('grn','A.potp()',t('Verify and pay')+' ₹'+amt)}${B('ghost','A.pclose()',t('Cancel payment'))}`;
+else h=`<h2>🔒 ${t('Secure payment')}</h2><div class="sum"><span>${t('Plan')}: <b>${t(pl[1])}</b></span><b>₹${amt}</b></div><p class="mut">${t('This is a demo. No real money is charged. Please do not enter real card or bank details.')}</p><div class="roles">${[['upi','📱','UPI'],['card','💳','Card'],['net','🏦','Net banking']].map(x=>`<button type="button" class="rl ${y.m==x[0]?'on':''}" onclick="A.pm('${x[0]}')"><i>${x[1]}</i>${t(x[2])}</button>`).join('')}</div>${y.m=='upi'?fld('pupi',t('UPI ID'),'text','placeholder="name@bank" autocomplete="off"')+`<p class="mut">${t('Demo: try ammini@okfederal')}</p>`:y.m=='card'?fld('pnm',t('Name on card'))+`<label for="pcn">${t('Card number')}</label><input id="pcn" inputmode="numeric" autocomplete="off" placeholder="1234 5678 9012 3456" value="${S.f.pcn||''}" oninput="A.fc(this)"><div class="row"><div><label for="pcx">${t('Expiry (MM/YY)')}</label><input id="pcx" inputmode="numeric" placeholder="MM/YY" value="${S.f.pcx||''}" oninput="A.fx(this)"></div><div><label for="pcv">CVV</label><input id="pcv" type="password" inputmode="numeric" maxlength="3" value="${S.f.pcv||''}" oninput="S.f.pcv=this.value"></div></div>`:`<label>${t('Choose your bank')}</label><div class="bk">${BANKS.map(b=>`<button type="button" class="t ${y.bank==b?'on':''}" onclick="A.bank('${b}')">${b}</button>`).join('')}</div>`}${e}${B('grn','A.ppay()',t('Pay')+' ₹'+amt)}${B('ghost','A.pclose()',t('Cancel'))}`;
+return `<div class="ov" role="dialog" aria-modal="true"><div class="card pay">${h}</div></div>`};
+const lang=()=>!S.me||S.me.role=='elder'?`<button class="b ghost sm" lang="${S.lang=='ml'?'en':'ml'}" style="color:var(--on);border-color:var(--on)" onclick="A.lang()">${S.lang=='ml'?'English':'മലയാളം'}</button>`:'';
+const now=()=>new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+let tm,ct,tt,S={nf:[],ah:[],dh:[],loc:null,lang:'en',edit:0,fe:{},pe:null,py:null,pays:[],fbn:1000,ff:'all',me:null,portal:'elder',mode:'login',tab:'dash',f:{},bio:0,msg:'',toast:'',cd:0,esc:0,kind:'',emerg:false,called:0,log:[],last:'Today, 9:02 AM',sv:'Check-in visit',anim:0,
+acc:[{id:'ammini',email:'ammini@careconnect.demo',pw:'Ammini@123',role:'elder',name:'Ammini Amma',phone:'98470 12345',addr:'12 Temple Road, Palakkad',plan:'care',ct:'09:00',vd:[1,3,5],vt:'10:00',ok:1},{id:'rahul',email:'rahul@careconnect.demo',pw:'Rahul@123',role:'family',name:'Rahul (son, Dubai)',phone:'+971 50 123 4567',of:'ammini',ok:1},{id:'priya',email:'priya@careconnect.demo',pw:'Priya@123',role:'vol',name:'Priya S.',ok:1,bio:1,free:1,fn:'Free until this evening',trust:4.6,done:12,phone:'98950 11122'},{id:'joseph',email:'joseph@careconnect.demo',pw:'Joseph@123',role:'vol',name:'Joseph K.',ok:0,bio:1,trust:0,done:0},{id:'divya',email:'divya@careconnect.demo',pw:'Divya@123',role:'donor',name:'Divya Nair',ok:1},{id:'admin',email:'admin@careconnect.demo',pw:'Admin@123',role:'admin',name:'Admin Meera',ok:1}],
+req:[{id:1,t:'Medicine',n:'Blood-pressure tablets from the pharmacy',w:'Today',st:'open',v:'',rep:'Every month',rx:1,rate:0,by:'ammini',d:'1.2'},{id:2,t:'Groceries',n:'Rice, milk and bananas',w:'Tomorrow',st:'open',v:'',rep:'',rate:0,by:'ammini',d:'2.4'}],
+people:[{n:'Anil (neighbour)',ph:'98950 33445',em:'',k:'Neighbour',ok:1},{n:'Rahul (son, Dubai)',ph:'+971 50 123 4567',em:'rahul@example.com',k:'Family',ok:1}],fb:[],funds:[{id:1,n:'Ammini',a:2000,w:'New spectacles',st:'pending'}],don:5000,used:0,usedL:[],mine:0,msgs:[],cl:[],ch:[],nextAt:0,ackAt:null,alId:0,escSec:60};
+/* ---------- Data layer: hospitals (importable) + 112 demo elders ---------- */
+const $$=s=>[...document.querySelectorAll(s)],esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),en=id=>(S.acc.find(a=>a.id==id)||{name:'Elder'}).name;
+const HOME={lat:10.7867,lng:76.6548};
+/* Hospital dataset supplied by the team. Coordinates are approximate town-level points used only to sort by distance; Directions use the name and address. */
+const HSEED=[
+{n:'Ahalia Foundation Eye Hospital',k:'Eye care',p:'Pattambi',ad:'Kalpaka Street, Mele Pattambi, Palakkad – 679303',lat:10.8067,lng:76.1946,ph:'9496007110',em:'pattambi@afeh.org',er:false},
+{n:'Ahalia Foundation Eye Hospital',k:'Eye care',p:'Elappully',ad:'Ahalia Campus, Elappully, Palakkad, Kerala 678556',lat:10.743,lng:76.617,ph:'9400247623',em:'corpservice@afeh.org',er:false},
+{n:'Ahalia Foundation Eye Hospital',k:'Eye care',p:'Mannarkkad',ad:'KTM Plaza, College Post, Kunthipuzha, Mannarkad-I, Palakkad, PIN: 678583',lat:10.993,lng:76.464,ph:'9496007110',em:'mnrkd@afeh.org',er:false},
+{n:'Mother Care And Health Centre Private Limited',k:'Hospital',p:'Mannarkkad',ad:'Kumaramputhur Post, Mannarkkad, Palakkad, PIN: 678583',lat:10.998,lng:76.45,ph:'8943350113',em:'insurance@mothercare.org.in',er:false},
+{n:'Palakkad Institute Of Medical Sciences',k:'Medical College',p:'Vaniyamkulam',ad:'Shoranur Pattambi Road, Palakkad Highway, Vaniamkulam, Palakkad, PIN: 679522',lat:10.757,lng:76.34,ph:'9496007110',em:'anilpimspkd@gmail.com',er:false},
+{n:'Sevana Hospital & Research Centre',k:'Hospital',p:'Pattambi',ad:'Kalladipatta Post, Pattambi, Palakkad, PIN: 679313',lat:10.83,lng:76.22,ph:'9400833023',em:'pro@sevanahospital.org',er:false},
+{n:'Swami Vivekananda Hospital',k:'Hospital',p:'Agali',ad:'Mannarkkad – Anakkatti Road, Agali PO, Palakkad, Agali, PIN: 678581',lat:11.09,lng:76.69,ph:'8589991226',em:'narayanagali@rediff.com',er:false},
+{n:'Trinity Eye Care Pvt Ltd',k:'Eye care',p:'Palakkad',ad:'Calicut Bypass Rd, Manali Jn, Palakkad, PIN: 678001',lat:10.77,lng:76.66,ph:'9633668811',em:'agmtrinityhospital@gmail.com',er:false},
+{n:'Atlas Eye Hospital Ltd',k:'Eye care',p:'Cherpulassery',ad:'Royal Plaza Building, EMS Road, Cherupulassery, PIN: 679503',lat:10.878,lng:76.309,ph:'6282769930',em:'varunktp@gmail.com',er:false},
+{n:'Karuna Medical College Hospital',k:'Medical College',p:'Palakkad',ad:'Karuna Medical College Hospital, Palakkad, PIN: 678103',lat:10.738,lng:76.69,ph:'9567185333',em:'kmchpkd11@gmail.com',er:false},
+{n:'Ottapalam Eye Care Hospital',k:'Eye care',p:'Ottapalam',ad:'Thottakkara, Ottapalam, PIN: 679102',lat:10.773,lng:76.379,ph:'9446095714',em:'ottapalameyecare@gmail.com',er:false},
+{n:'Sandhyaram Hospital',k:'Hospital',p:'Katampazhipuram',ad:'Katampazhipuram (PO), Katambazhipuram, PIN: 678633',lat:10.87,lng:76.46,ph:'9496995206',em:'sandhyaramrsby@gmail.com',er:false},
+{n:'Eye Foundation Limited',k:'Eye care',p:'Palakkad',ad:'Near Indira Gandhi Municipal Stadium, Near Pulse Clinic, Palayapetta, Palakkad, PIN: 678001',lat:10.786,lng:76.654,ph:'8870099395',em:'thamilselvan@theeyefoundation.com',er:false},
+{n:'Nila Hospital Pvt Ltd',k:'Hospital',p:'Pattambi',ad:'Pallippuram Road, Near Pattambi Pvt Bus Stand, Pattambi, Palakkad, PIN: 679303',lat:10.807,lng:76.197,ph:'8921257155',em:'nilahospitalpvtld@gmail.com',er:false},
+{n:'Zains Eye Hospital',k:'Eye care',p:'Cherpulassery',ad:'Opp Bharath Petroleum, Manjakkal, Cherpulassery, Palakkad – 679503',lat:10.88,lng:76.308,ph:'7736538538',em:'insurancezain123@gmail.com',er:false}
+];
+const loadH=()=>{try{const j=JSON.parse(localStorage.getItem('cc_hosp')||'null');if(Array.isArray(j)&&j.length)return{l:j,s:'Imported dataset'}}catch(e){}return{l:HSEED.slice(),s:'Hospital dataset'}};
+const km=(a,b,c,d)=>{const r=x=>x*Math.PI/180,q=Math.sin(r(c-a)/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(r(d-b)/2)**2;return 12742*Math.asin(Math.sqrt(q))};
+const csv=(x,d=',')=>{const R=[];let r=[],c='',q=0;for(let i=0;i<x.length;i++){const h=x[i];if(q){if(h=='"'){if(x[i+1]=='"'){c+='"';i++}else q=0}else c+=h}else if(h=='"')q=1;else if(h==d){r.push(c);c=''}else if(h=='\n'||h=='\r'){if(h=='\r'&&x[i+1]=='\n')i++;r.push(c);c='';if(r.some(v=>v.trim()))R.push(r);r=[]}else c+=h}r.push(c);if(r.some(v=>v.trim()))R.push(r);return R};
+const norm=rows=>rows.map(o=>{const g=(...ks)=>{for(const k of ks)for(const y in o)if(y.toLowerCase().replace(/[^a-z0-9]/g,'')==k&&String(o[y]).trim()!=='')return String(o[y]).trim();return''};
+const nm=g('name','hospital','hospitalname'),lat=parseFloat(g('lat','latitude')),lng=parseFloat(g('lng','lon','long','longitude')),er=g('er','emergency','24x7','open24x7','casualty').toLowerCase();
+return{n:nm,k:g('type','category','ownership','kind')||(/\beye\b/i.test(nm)?'Eye care':/medical (college|sciences)/i.test(nm)?'Medical College':'Hospital'),p:g('place','city','district','location','area','town'),ad:g('address','fulladdress'),lat:isFinite(lat)?lat:null,lng:isFinite(lng)?lng:null,ph:g('phone','contact','tel','mobile','phoneno','mobileno','mobilenumber'),em:g('email','emailid','mail'),er:/^(1|y|yes|true|24x7|24\/7|open)/.test(er)}}).filter(h=>h.n);
+const hn=h=>h.n+(h.p?', '+h.p:''),gm=h=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.n+' '+(h.ad||h.p||''))}`;
+(()=>{const h=loadH();Object.assign(S,{hosp:h.l,hsrc:h.s,hq:'',hf:'all',hn:8,eq:'',ef:'all',en:20})})();
+const hd=()=>{const m=S.me||{},a=m.lat||HOME.lat,b=m.lng||HOME.lng;return S.hosp.map((h,i)=>({...h,i,d:h.lat!=null&&h.lng!=null?km(a,b,h.lat,h.lng):null}))};
+const hfl=()=>[['all','All']].concat(S.hosp.some(h=>h.er)?[['er','Emergency 24x7']]:[]).concat([...new Set(S.hosp.map(h=>h.k))].slice(0,5).map(x=>[x,x]));
+const nh=()=>{if(S.sv!='Hospital visit')return'';const r=hd().filter(h=>h.d!=null).sort((a,b)=>a.d-b.d).slice(0,3);return r.length?`<p class="mut" style="margin:10px 0 0">${t('Nearest hospitals')}</p><div class="sw">${r.map(h=>`<button type="button" class="c ${S.f.hsel==hn(h)?'a':''}" onclick="A.hsel(${h.i})">${esc(h.n)} · ~${Math.max(1,Math.round(h.d))} km</button>`).join('')}</div>`:''};
+const hl=()=>{const q=(S.hq||'').toLowerCase().trim(),rs=hd().filter(h=>(S.hf=='all'||(S.hf=='er'?h.er:h.k==S.hf))&&(!q||(h.n+' '+h.p+' '+h.k+' '+(h.ad||'')).toLowerCase().includes(q))).sort((a,b)=>(a.d??1e9)-(b.d??1e9)),ln='style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none"';
+if(!rs.length)return`<p class="mut">${t('No hospitals match.')}</p>`;
+return rs.slice(0,S.hn).map(h=>`<div class="hi"><div class="top"><span><span class="nm">${esc(h.n)}</span><br><span class="mut">${esc(h.ad||h.p||'')}</span></span>${h.d!=null?`<span class="km">~${Math.max(1,Math.round(h.d))} km</span>`:''}</div><div>${pill(esc(h.k))}${h.er?`<span class="pill g">${t('Emergency 24x7')}</span>`:''}</div><div class="row"><a class="b ghost sm" ${ln} target="_blank" rel="noopener" href="${gm(h)}">📍 ${t('Directions')}</a>${h.ph?`<a class="b ghost sm" ${ln} href="tel:${esc(h.ph.replace(/[^\d+]/g,''))}">📞 ${t('Call')}</a>`:''}${h.em?`<a class="b ghost sm" ${ln} href="mailto:${esc(h.em)}">✉️ ${t('Email')}</a>`:''}<button class="b sm" onclick="A.hv(${h.i})">${t('Request a visit here')}</button></div></div>`).join('')+(rs.length>S.hn?`<button class="b big ghost" onclick="A.hmore()">${t('Show more')} (${rs.length-S.hn})</button>`:'')};
+const eldL=()=>{const q=S.eq.toLowerCase().trim(),rs=S.acc.filter(a=>a.role=='elder'&&(S.ef=='all'||a.st==S.ef)&&(!q||(a.name+' '+(a.place||'')+' '+(a.age||'')).toLowerCase().includes(q))),ST={ok:['Checked in','g'],late:['Check-in pending','w'],alert:['Needs attention','w']};
+if(!rs.length)return'<p class="mut">No elders match.</p>';
+return `<p class="mut">${rs.length} shown</p>`+rs.slice(0,S.en).map(e=>`<div class="it"><span class="ac"><span class="av">${esc(e.name[0])}</span><span><b>${esc(e.name)}</b>${e.age?' · '+e.age:''}<br><span class="mut">${esc(e.place||'Palakkad')} · ${esc(e.phone)}${e.last?' · '+esc(e.last):''}</span></span></span><span>${pill(ST[e.st||'ok'][0],ST[e.st||'ok'][1])}${pill(PLANS.find(p=>p[0]==e.plan)[1])}</span></div>`).join('')+(rs.length>S.en?`<button class="b big ghost" onclick="A.emore()">Show more (${rs.length-S.en} left)</button>`:'')};
+/* 111 generated elders + Ammini = 112. Names, numbers and places are synthetic demo data. */
+(()=>{const rnd=(s=>()=>{s|=0;s=s+0x6D2B79F5|0;let x=Math.imul(s^s>>>15,1|s);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296})(2026),pk=a=>a[Math.floor(rnd()*a.length)],
+FF=['Lakshmi','Saraswathi','Kamalakshi','Janaki','Thankamma','Mariyamma','Aleyamma','Annamma','Ponnamma','Subhadra','Bhargavi','Rosamma','Khadeeja','Aisha','Fathima','Sulochana','Gouri','Radha','Leelamma','Sosamma','Eliamma','Kunjamma','Omana','Devaki','Meenakshi','Sarojini','Vimala','Chinnamma'],
+MF=['Krishnan','Raman','Gopalan','Kuriakose','Varghese','Mathai','Joseph','Abdul Rahman','Hamsa','Narayanan','Sreedharan','Balakrishnan','Ouseph','Chacko','Pappachan','Velayudhan','Ayyappan','Sukumaran','Thomas','Paulose','Aboobacker','Kunhikrishnan','Divakaran','Prabhakaran','Ibrahim','Anthony','Madhavan','Sasidharan'],
+SN=['Nair','Menon','Pillai','Kurup','Panicker','Varghese','Mathew','Kuriakose','Thomas','Joseph','Ibrahim','Hassan','Nambiar','Warrier','Kartha','Pothen','Ouseph','Mohammed'],
+PL=[['Palakkad',10.7867,76.6548],['Pattambi',10.8067,76.1946],['Ottapalam',10.7730,76.3790],['Mannarkkad',10.9930,76.4640],['Cherpulassery',10.8780,76.3090],['Shoranur',10.7600,76.2700],['Kongad',10.8500,76.5300],['Vaniyamkulam',10.7570,76.3400]],
+ST=['Temple Road','Church Road','Market Road','School Lane','Canal Bank Road','Mosque Road','Library Junction','River View Lane','Hill Road','Mill Road'],seen=new Set();let n=0;
+while(n<111){const f=rnd()<.55,fn=pk(f?FF:MF),sn=pk(SN),nm=fn+' '+sn;if(seen.has(nm))continue;seen.add(nm);n++;const pl=pk(PL),r=rnd(),s=rnd(),st=s<.82?'ok':s<.97?'late':'alert';
+S.acc.push({id:'e'+n,email:(fn+'.'+sn+'.'+n+'@careconnect.demo').toLowerCase().replace(/[^a-z0-9.@]/g,''),pw:'Demo@123',role:'elder',name:nm,phone:'9'+(4+Math.floor(rnd()*5))+'••• ••'+(100+Math.floor(rnd()*900)),addr:(1+Math.floor(rnd()*80))+', '+pk(ST)+', '+pl[0],place:pl[0],lat:pl[1]+(rnd()-.5)*.02,lng:pl[2]+(rnd()-.5)*.02,plan:r<.6?'free':'care',ct:'0'+(7+Math.floor(rnd()*3))+':'+pk(['00','30']),age:62+Math.floor(rnd()*30),st,last:st=='ok'?'Today, '+(6+Math.floor(rnd()*4))+':'+pk(['05','20','40','55'])+' AM':st=='late'?'Yesterday, '+(7+Math.floor(rnd()*2))+':30 PM':'Missed 2 days',ok:1,g:1})}
+Object.assign(S.acc[0],{age:78,place:'Palakkad',st:'ok',last:'Today, 9:02 AM'});
+[['Check-in visit','Please look in on me this evening, I am alone at home','Today',0],['Hospital visit','Follow-up check-up at Karuna Medical College Hospital, morning slot','Tomorrow',1],['Cab','Pick-up from home to Eye Foundation Limited, Palayapetta, 10 AM','Tomorrow',1],['Anything else','Help changing a light bulb and fixing the gas stove knob','This week',0],['Hospital visit','Eye check-up, need someone to accompany me on foot','This week',0]].forEach((q,i)=>S.req.push({id:100+i,t:q[0],n:q[1],w:q[2],st:'open',v:'',rep:'',veh:q[3],rate:0,by:'ammini',d:(.8+rnd()*3).toFixed(1)}))})();
+/* 36 generated volunteers + Priya + Joseph = 38. Synthetic demo data; phones are masked. */
+(()=>{const rnd=(s=>()=>{s|=0;s=s+0x6D2B79F5|0;let x=Math.imul(s^s>>>15,1|s);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296})(2027),pk=a=>a[Math.floor(rnd()*a.length)],
+FN=['Anjali','Arun','Athira','Akhil','Neethu','Rahul','Sneha','Vishnu','Devika','Midhun','Remya','Sajan','Anu','Jithin','Fousiya','Nithin','Shilpa','Basil','Gayathri','Abhijith','Aswathy','Sreejith','Maria','Febin','Ameena','Joel','Lekshmi','Adithya','Nimisha','Tomy','Sherin','Anand','Gopika','Alan','Haritha','Sarath'],
+LI='ABCDEGJKMNPRSTV'.split(''),
+PL=['Palakkad','Pattambi','Ottapalam','Mannarkkad','Cherpulassery','Shoranur','Kongad','Vaniyamkulam'],
+FR=['for the next hour','until this evening','all day today','this weekend'],seen=new Set();let n=0;
+while(n<36){const fn=pk(FN),nm=fn+' '+pk(LI)+'.';if(seen.has(nm))continue;seen.add(nm);n++;const r=rnd(),bio=rnd()<.94,free=bio&&r<.9&&rnd()<.4;
+S.acc.push({id:'v'+n,email:(fn+'.v'+n+'@careconnect.demo').toLowerCase(),pw:'Demo@123',role:'vol',name:nm,phone:'9'+(4+Math.floor(rnd()*5))+'••• ••'+(100+Math.floor(rnd()*900)),place:pk(PL),ok:r<.9?1:0,bio:bio?1:0,free:free?1:0,fn:free?'Free '+pk(FR):'',trust:r<.9?+(3.8+rnd()*1.2).toFixed(1):0,done:r<.9?Math.floor(rnd()*41):0,g:1})}
+Object.assign(S.acc.find(a=>a.id=='joseph'),{phone:'97••• ••205',place:'Palakkad'});Object.assign(S.acc.find(a=>a.id=='priya'),{place:'Palakkad'})})();
+Object.assign(S,{aq:'',af:'all'});
+const accL=()=>{const q=S.aq.toLowerCase().trim(),RL={elder:'Elder',vol:'Volunteer',donor:'Donor',family:'Family',admin:'Admin'},rs=S.acc.filter(a=>!(a.g&&a.role=='elder')&&(S.af=='all'||(S.af=='pend'?!a.ok:a.role==S.af))&&(!q||(a.name+' '+a.email+' '+(a.phone||'')+' '+(a.place||'')).toLowerCase().includes(q)));
+if(!rs.length)return'<p class="mut">No accounts match.</p>';
+return `<p class="mut">${rs.length} shown</p>`+rs.map(a=>`<div class="it"><span class="ac"><span class="av">${esc(a.name[0])}</span><span><b>${esc(a.name)}</b><br><span class="mut">📞 ${esc(a.phone||'No phone added')} · ${esc(a.email)}${a.place?' · '+esc(a.place):''}</span></span></span><span>${pill(RL[a.role])}${a.role=='vol'?pill(a.bio?'Fingerprint matched':'No fingerprint',a.bio?'g':'w')+(a.ok?pill('★ '+(a.trust||'New')+' · '+(a.done||0)+' tasks'):''):''}${a.ok?'':pill('Waiting for approval','w')}</span>${a.role=='admin'?'':a.ok?`<button class="b ghost sm" onclick="A.rev('${esc(a.id)}')">Revoke access</button>`:`<button class="b grn sm" onclick="A.appr('${esc(a.id)}')">Grant access</button>`}${a.role=='vol'?`<button class="b red sm" onclick="A.del('${esc(a.id)}')">${S.cf==a.id?'Confirm delete':'Delete'}</button>`:''}</div>`).join('')};
+const pill=(t,c)=>`<span class="pill ${c||''}">${t}</span>`,err=()=>S.msg?`<p class="err" role="alert">${S.msg}</p>`:'';
+const lg=t=>S.log.push(now()+' · '+t),soft=()=>{if(!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))go()};
+const fld=(k,l,ty='text',x='')=>`<label for="${k}">${l}</label><input id="${k}" type="${ty}" value="${S.f[k]||''}" oninput="S.f.${k}=this.value" ${x}>`;
+const stepLbl=s=>s.k=='contact'?s.c.n:s.k=='vol'?'Free volunteers':s.k=='admin'?'Admin':'Call 108 / 112';
+const reached=k=>{const i=(S.ch||[]).findIndex(s=>s.k==k);return i>=0&&S.esc>i};
+const chain=()=>'<ol class="ch">'+[{l:S.kind=='sos'?'SOS pressed':'Check-in missed',on:1}].concat((S.ch||[]).map((s,i)=>({l:stepLbl(s),on:S.esc>=i+1}))).map(x=>`<li class="${x.on?'on':''}">${t(x.l)}</li>`).join('')+'</ol>'+(S.ack?`<p class="ackl"><b>✓ ${esc(S.ack)} ${t('acknowledged')}${S.ackAt?' '+t('at')+' '+esc(S.ackAt):''}.</b> ${t('Escalation stopped')}.</p>`:S.nextAt?`<p class="wtx">${t('Waiting for someone to acknowledge. Next alert at')} ${new Date(S.nextAt).toLocaleTimeString([],{hour:'numeric',minute:'2-digit',second:'2-digit'})}</p>`:'');
+const logL=()=>'<ul class="tl">'+S.log.map(x=>`<li>${x}</li>`).join('')+'</ul>';
+const stp=r=>{const i={open:0,acc:1,door:2,ver:3,done:4}[r.st];return '<ol class="sp">'+['Requested','Volunteer accepted','At your door','Verified by OTP','Done'].map((x,k)=>`<li class="${k<i||(k==i&&i>=3)?'on':k==i?'wt':''}">${t(x)}</li>`).join('')+`</ol><p class="${i<3?'wtx':'gtx'}">${t(['Waiting for a volunteer…','Waiting: your volunteer is on the way…',(S.me&&S.me.role=='vol')?(r.otp?'Ask the elder for the code and enter it to confirm.':'Waiting for the admin to send the elder a code…'):r.otp?'Code sent to you. Tell it to the volunteer only if you know them…':'Waiting for the admin to send you a code…','Verified by OTP. This volunteer is trusted.','Completed'][i])}</p>`};
+const fp=c=>`<svg class="fp ${c}" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 28a12 12 0 0 1 24 0v8"/><path d="M14 30a18 18 0 0 1 36 0v10c0 6-2 10-4 13"/><path d="M26 30a6 6 0 0 1 12 0v10c0 5-1 9-3 12"/><path d="M32 30v12c0 4-1 7-2 9"/></g><rect class="sl" x="6" y="0" width="52" height="3" rx="2"/></svg>`;
+const trans=()=>`<section class="card"><h2>Fund transparency</h2><div class="st"><div><b>₹${S.don}</b>Donated</div><div><b>₹${S.used}</b>Given out</div><div><b>₹${S.don-S.used}</b>Available</div></div>${S.usedL.length?'<table><tr><th>Date</th><th>Received by</th><th>Amount</th><th>Used for</th><th>Receipt</th></tr>'+S.usedL.map(u=>`<tr><td>${u.at||''}</td><td>${esc(u.n)}</td><td>₹${u.a}</td><td>${esc(u.w)}</td><td>${u.r?`<a href="${u.r.d}" download="${esc(u.r.n)}">View</a>`:'Pending'}</td></tr>`).join('')+'</table>':'<p class="mut">No payouts yet. Every payout will be listed here.</p>'}</section>`;
+
+/* ---------- Home ---------- */
+function home(){const p=S.portal,reg=S.mode=='reg'&&!S.adm;
+return `<header><b>♥ CareConnect</b><div class="row"><a class="hl" href="#how">${t('How it works')}</a><a class="hl" href="#login" onclick="A.sm('login')">${t('Log in')}</a><a class="hl" href="#login" onclick="A.sm('reg')">${t('Sign up')}</a>${lang()}<button class="b ghost sm" style="color:var(--on);border-color:var(--on)" onclick="A.theme()">${t('Light / dark')}</button></div></header>
+<div class="home"><div class="g2"><div class="hero"><span class="blob" style="width:220px;height:220px;right:-60px;top:-60px"></span><span class="blob" style="width:120px;height:120px;right:40px;bottom:-30px;animation-delay:2s"></span>
+<h1>${t('Living alone, never alone.')}</h1><p>CareConnect links elders with verified neighbours and volunteers for daily errands, hospital visits and instant help, and lets families watch over them from anywhere.</p>
+<div class="chips"><span>Daily check-ins</span><span>One-tap SOS</span><span>Verified volunteers</span><span>Family updates</span></div></div>
+<div class="card ${S.adm?'adm':''}" id="login">
+<h2 style="margin-top:14px">${S.adm?'🛡️ Admin sign in':reg?t('Create your account'):t('Log in')}</h2>${S.adm?'<p>Restricted area. Only admin emails can sign in here.</p>':''}
+${reg?fld('name',t('Full name')):''}${fld('email',t('Email'),'email')}${fld('pw',t('Password'),'password')}${reg?'<label>I want to join as</label><div class="roles">'+[['elder','🧓','Elder','Needs support'],['vol','🤝','Volunteer','Admin approves'],['donor','💝','Donor','Admin approves']].map(x=>`<button type="button" class="rl ${(S.f.r||'elder')==x[0]?'on':''}" onclick="A.pickrole('${x[0]}')"><i>${x[1]}</i>${x[2]}<small>${x[3]}</small></button>`).join('')+'</div>':''}
+${reg&&S.f.r=='vol'?fld('phone',t('Phone number')+' *','tel','inputmode="tel" autocomplete="tel"'):''}${reg&&S.f.r=='vol'?`<label>Biometric verification</label><div class="card" style="text-align:center">${fp(['','scan','done'][S.bio])}<p class="mut">${['Scan your fingerprint to prove your identity. Your admin checks it before you can help anyone.','Scanning…','Fingerprint matched ✓'][S.bio]}</p>${S.bio!=1?`<button class="b ghost sm" onclick="A.scan()">${S.bio?'Scan again':'Scan fingerprint'}</button>`:''}</div>`:''}
+${err()}<button class="b big" onclick="A.${reg?'reg':'login'}()">${reg?t('Create account'):t('Log in')}</button>
+${S.adm?`<button class="b ghost" style="width:100%;color:#fff;border-color:#fff" onclick="A.adm(0)">← Back to normal sign in</button>`:`<button class="b ghost" style="width:100%" onclick="A.mode()">${reg?t('I already have an account'):t('Create a new account')}</button><p style="text-align:center"><button class="c" onclick="A.adm(1)">🛡️ Sign in as admin</button></p>`}
+<details class="demo"><summary class="mut">Demo accounts (tap one to fill the form)</summary>${S.acc.filter(a=>!a.g&&(S.adm?a.role=='admin':a.role!='admin')).map(a=>`<button onclick="A.fill('${a.id}')"><b>${a.name}</b> · ${({elder:'Elder',vol:'Volunteer',donor:'Donor',family:'Family',admin:'Admin'})[a.role]}<br><span class="mut">${a.email}</span></button>`).join('')}</details></div></div>
+
+<div class="how" id="how"><div class="card"><b>Check in daily</b><p class="mut">Miss one and we alert your trusted people, then nearby volunteers, then the admin.</p></div><div class="card"><b>Ask for anything</b><p class="mut">Hospital, medicine, groceries. Volunteers come to your door.</p></div><div class="card"><b>Confirm at the door</b><p class="mut">You say “yes” before anyone is marked trusted.</p></div><div class="card"><b>Give together</b><p class="mut">Donors fund help. Every payout is public.</p></div></div></div>${foot()}`}
+
+/* ---------- Separate sign-in pages: #volunteer, #donor, #admin ---------- */
+const bioBlk=()=>`<label>Biometric verification</label><div class="card" style="text-align:center">${fp(['','scan','done'][S.bio])}<p class="mut">${['Scan your fingerprint to prove your identity. An admin checks it before you can help anyone.','Scanning…','Fingerprint matched ✓'][S.bio]}</p>${S.bio!=1?`<button class="b ghost sm" onclick="A.scan()">${S.bio?'Scan again':'Scan fingerprint'}</button>`:''}</div>`;
+function staff(){const p=S.portal,reg=S.mode=='reg'&&p!='admin',I={vol:['Volunteer portal','Help elders near you. New volunteers verify with a fingerprint, then wait for admin approval.','priya / v123'],donor:['Donor portal','Fund care for elders. Every payout is listed publicly.','divya / d123'],admin:['Admin console','Restricted area for authorised staff only.','admin / admin123']}[p];
+return `<header><b>♥ CareConnect</b><button class="b ghost sm" style="color:var(--on);border-color:var(--on)" onclick="A.theme()">Light / dark</button></header>
+<div class="home" style="max-width:480px"><div class="hero"><span class="blob" style="width:160px;height:160px;right:-40px;top:-40px"></span><h1>${I[0]}</h1><p>${I[1]}</p></div>
+<div class="card"><h2>${reg?'Create your account':'Log in'}</h2>${reg?fld('name','Full name'):''}${fld('id','User ID')}${fld('pw','Password','password')}${reg&&p=='vol'?bioBlk():''}${err()}<button class="b big" onclick="A.${reg?'reg':'login'}()">${reg?'Create account':'Log in'}</button>${p!='admin'?`<button class="b ghost" style="width:100%" onclick="A.mode()">${reg?'I already have an account':'Create a new account'}</button>`:''}<p class="mut" style="font-size:.85rem">Demo login: ${I[2]}</p></div>
+<p><a href="#">← Back to the main site</a></p></div>`}
+
+/* ---------- Elder ---------- */
+const elderSms=r=>{if(!r.otp)return `<p class="wtx">${t('Waiting for the admin to send you a code…')}</p>`;const dead=Date.now()-r.otpAt>OTP_TTL;return `<div class="sms"><small>📱 ${SMS.url?'SMS':'Demo SMS'} to your phone (${esc(S.me.phone||'')})</small><br>${dead?`<b>${t('This code has expired.')}</b>`:SMS.url?'A code was sent by SMS to your phone. Tell it to the volunteer only if you know them. Valid for 5 minutes.':`${t('Your CareConnect code is')} <b class="code">${r.otp}</b>. ${t('Tell this code to the volunteer only if you know them. Valid for 5 minutes.')}`}</div>${dead?`<p class="wtx">${t('Ask the admin to send a new code.')}</p>`:''}`};
+const SMS={url:''}; /* Paste your backend endpoint, e.g. https://your-server.com/api/send-otp. The server keeps the SMS provider key (Twilio or MSG91) and sends the text. */
+const PAY={key:''}; /* Paste your Razorpay Key ID. For real money your server must also create the order and verify the payment signature. */
+const smsSend=(to,body)=>{if(API.on&&API.sms){S.nf.unshift({id:Date.now()+Math.floor(Math.random()*500),at:now(),to:'sms',ph:to,msg:body,sms:1});return}if(!SMS.url||typeof fetch!='function')return;try{fetch(SMS.url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to,body})}).catch(()=>{})}catch(e){}};
+const gps=cb=>{S.loc=null;if(!navigator.geolocation)return cb();navigator.geolocation.getCurrentPosition(p=>{S.loc={lat:+p.coords.latitude.toFixed(5),lng:+p.coords.longitude.toFixed(5),acc:Math.round(p.coords.accuracy)};cb()},()=>cb(),{timeout:5000,maximumAge:30000})};
+const resAh=x=>{const a=S.ah.find(y=>y.res=='Open');if(a)a.res=x};
+const mapA=l=>l?`<br><a href="https://www.google.com/maps?q=${l.lat},${l.lng}" target="_blank" rel="noreferrer">📍 Live location shared (±${l.acc||'?'} m)</a>`:'';
+const ahCard=eid=>{const l=S.ah.filter(x=>!eid||x.eid==eid).slice(0,6);if(!l.length)return'';return `<section class="card"><h2>Emergency history</h2>${l.map(x=>`<div class="it"><span><b>${x.k=='sos'?'🆘 SOS':'⚠ Missed check-in'}</b> · ${esc(x.who.n)} · ${x.at}<br><span class="mut">${esc(x.log.slice(-1)[0]||'')}</span>${mapA(x.loc)}</span>${pill(x.res,x.res=='Open'?'w':'g')}</div>`).join('')}</section>`};
+const nfKey=()=>{const m=S.me;return m.role=='vol'?'vol':m.role=='admin'?'admin':m.role=='family'?'fam:'+m.of:m.role=='elder'?'el:'+m.id:''};
+const nfKeys=()=>{const m=S.me,k=nfKey();return m.role=='vol'?[k,'vol:'+m.id]:[k]};
+const nfBar=()=>{const ks=nfKeys(),l=S.nf.filter(x=>ks.includes(x.to)).slice(0,3);return l.length?`<section class="card warn" role="alert"><h2>🔔 Notifications</h2>${l.map(x=>`<div class="it"><span>${esc(x.msg)}<br><span class="mut">${x.at}</span></span></div>`).join('')}<button class="b ghost sm" onclick="A.nfx()">Dismiss</button></section>`:''};
+A.nfx=()=>{const ks=nfKeys();S.nf=S.nf.filter(x=>!ks.includes(x.to));go()};
+const dhCard=by=>{const l=S.dh.filter(x=>!by||x.by==by);return `<section class="card"><h2>Donation history</h2>${l.length?'<table><tr><th>Date</th>'+(by?'':'<th>Donor</th>')+'<th>Amount</th><th>Reference</th><th>Mode</th></tr>'+l.map(x=>`<tr><td>${x.at}</td>${by?'':`<td>${esc(x.n)}</td>`}<td>₹${x.a}</td><td>${x.ref}</td><td>${x.mode}</td></tr>`).join('')+'</table>':'<p class="mut">No donations yet.</p>'}</section>`};
+const rcptCard=()=>`<section class="card"><h2>Proof of expenses</h2>${S.usedL.length?S.usedL.map((u,i)=>`<div class="it"><span><b>${esc(u.n)}</b> · ₹${u.a} · ${esc(u.w)}<br>${u.r?`<a href="${u.r.d}" download="${esc(u.r.n)}">📎 ${esc(u.r.n)}</a>`:'<span class="mut">No receipt uploaded yet</span>'}</span><label class="b ghost sm" style="margin:0">${u.r?'Replace receipt':'Upload receipt'}<input type="file" accept="image/*,application/pdf" hidden onchange="A.rcpt(${i},this)"></label></div>`).join(''):'<p class="mut">Receipts appear here once a payout is approved.</p>'}</section>`;
+A.rcpt=(i,el)=>{const f=el.files[0];if(!f)return;if(f.size>1.5e6){S.msg='The receipt must be under 1.5 MB.';return go()}const rd=new FileReader();rd.onload=()=>{S.usedL[i].r={n:f.name,d:rd.result};go()};rd.readAsDataURL(f)};
+V.family.dash=()=>{const e=S.acc.find(a=>a.id==S.me.of)||{name:'—',id:''},mine=S.req.filter(r=>r.by==e.id),done=mine.filter(r=>r.st=='done'),act=mine.filter(r=>r.st!='done'&&r.v),al=S.esc>0&&WHO().n==e.name,la=S.ah.find(x=>x.eid==e.id&&x.loc),vd=n=>{const v=S.acc.find(a=>a.name==n)||{};return `${esc(n)}${v.phone?' · '+esc(v.phone):''}${v.trust?' · ★ '+v.trust:''}`};
+return `<div><h1>${esc(e.name)}</h1><p class="mut">${esc(e.addr||'')} · ${esc(e.phone||'')}</p></div>${liveCard(e,al)}${chatCard(e.id,'fam')}
+<section class="card ${al?'warn':'ok'}"><h2>Daily check-in</h2><p><b>${al?'⚠ Alert in progress':'✓ Last check-in: '+(S.last||'none yet')}</b><br><span class="mut">Scheduled daily at ${esc(e.ct||'09:00')}</span></p>${al?chain()+logL():''}${la?mapA(la.loc):'<p class="mut">No live location shared yet. It appears here when an SOS is sent.</p>'}</section>
+<section class="card"><h2>🏠 Home visits</h2><p>${(e.vd||[]).length?'Every '+e.vd.map(x=>DAYS[x]).join(', ')+' at '+esc(e.vt||'10:00'):'No weekly visits scheduled'}<br><span class="mut">Next visit: ${nvTxt(e)}</span></p></section>
+<section class="card"><h2>Volunteers helping now</h2>${act.length?act.map(r=>`<div class="it"><span><b>${esc(r.t)}</b> · ${vd(r.v)}</span>${pill(r.st=='ver'?'Verified at door':'On the way',r.st=='ver'?'g':'w')}</div>`).join(''):'<p class="mut">No volunteer is assigned right now.</p>'}</section>
+<section class="card"><h2>Completed tasks (${done.length})</h2>${done.length?done.map(r=>`<div class="it"><span><b>${esc(r.t)}</b> · ${vd(r.v)}<br><span class="mut">${esc(r.n)}</span></span>${pill('Done','g')}</div>`).join(''):'<p class="mut">Nothing completed yet.</p>'}</section>
+${ahCard(e.id)}`};
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const nextVisit=e=>{if(!(e.vd||[]).length)return null;const n=new Date();for(let i=0;i<8;i++){const d=new Date(n);d.setDate(n.getDate()+i);const[h,m]=(e.vt||'10:00').split(':').map(Number);d.setHours(h,m,0,0);if(e.vd.includes(d.getDay())&&d>n)return d}return null};
+const nvTxt=e=>{const d=nextVisit(e);return d?DAYS[d.getDay()]+' '+d.toLocaleDateString([],{day:'numeric',month:'short'})+', '+(e.vt||'10:00'):'No visits scheduled'};
+const visCard=()=>{const e=S.me,vols=S.acc.filter(a=>a.role=='vol'&&a.ok&&a.bio);return `<section class="card"><h2>🏠 Home visits</h2><p class="mut">📞 Your phone check-in stays <b>daily</b>. Home visits happen only on the days you choose. Need someone on any other day? Tap “Visit me now”.</p><div class="row">${[1,2,3,4,5,6,0].map(i=>`<button class="c ${(e.vd||[]).includes(i)?'a':''}" onclick="A.vday(${i})" aria-pressed="${(e.vd||[]).includes(i)}">${DAYS[i]}</button>`).join('')}</div><label for="vt">Visit time</label><input id="vt" type="time" value="${e.vt||'10:00'}" onchange="A.vtime(this.value)"><label for="vp">Who should visit?</label><select id="vp" onchange="A.vpref(this.value)"><option value="">Any free volunteer</option>${vols.map(v=>`<option value="${v.id}" ${e.vp==v.id?'selected':''}>${esc(v.name)}</option>`).join('')}</select><p><b>Next visit:</b> ${nvTxt(e)}</p><button class="b big" onclick="A.visitNow()">Visit me now</button></section>`};
+A.vday=i=>{const e=S.me,l=e.vd||[];e.vd=l.includes(i)?l.filter(x=>x!=i):l.concat(i).sort();toast(e.vd.length?'Home visits: '+e.vd.map(x=>DAYS[x]).join(', '):'Home visits turned off')};
+A.vtime=v=>{S.me.vt=v||'10:00';toast('Visit time saved')};
+A.vpref=v=>{S.me.vp=v;toast(v?'Preferred volunteer saved':'Any free volunteer can visit')};
+A.visitNow=()=>{S.sv='Check-in visit';if(dup())return;const e=S.me;S.req.unshift({id:Date.now(),t:'Check-in visit',n:'Visit requested by the elder',w:'Today',st:'open',v:'',to:e.vp||undefined,rep:'',rx:0,rate:0,by:e.id,d:(1+Math.random()*3).toFixed(1),veh:0});S.nf.unshift({id:Date.now()+1,at:now(),to:'vol',msg:'🏠 '+e.name+' would like a visit'});famNf(e.id,'🏠 '+e.name+' asked for a check-in visit');toast('Visit requested. A volunteer will be in touch.')};
+V.elder.dash=()=>{const me=S.me,al=S.esc>0,mine=S.req.filter(r=>r.by==me.id),cur=mine.find(r=>r.st!='done'),door=mine.filter(r=>r.st=='door');
+return `<div><h1>${t('Hello')}, ${me.name.split(' ')[0]}</h1><p class="mut">${t('Everything you need, one tap away.')}</p></div>
+${door.map(r=>{const v=S.acc.find(a=>a.name==r.v)||{};return `<section class="card warn"><h2>${t('Someone is at your door')}</h2><p><b>${esc(r.v)}</b> ${L()?`നിങ്ങളുടെ ‘${t(r.t)}’ അഭ്യർത്ഥനയ്ക്കായി വന്നിരിക്കുന്നു.`:`says they are here for your ${esc(r.t.toLowerCase())} request.`}</p><div>${pill('✓ '+t('Fingerprint verified'),'g')}${pill('✓ '+t('Approved by CareConnect'),'g')}${pill('★ '+(v.trust||t('New'))+' · '+(v.done||0)+' '+t('tasks'))}</div>${elderSms(r)}<div class="row"><button class="b red" onclick="A.no(${r.id})">${t('No, I don’t know them')}</button></div></section>`}).join('')}
+<section class="card ${al?'warn':''}"><h2>${t('Daily check-in')}</h2><p>${al?t('Alert in progress. Help is being arranged.'):t('Last check-in:')+' '+S.last}</p><button class="b big grn" onclick="A.ok()">${t('I’m okay')}</button>${notifBtn()}${al?chain()+logL():`<button class="b ghost sm" onclick="A.miss()">${t('Demo: simulate a missed check-in')}</button>`}</section>
+${chatCard(me.id,'elder')}${cur?`<section class="card ${cur.st=='ver'?'ok':''}"><h2>${t(cur.t)}</h2><p class="mut">${cur.n}${cur.v?' · '+t('Volunteer')+': '+cur.v:''}</p>${stp(cur)}</section>`:''}
+${visCard()}${ahCard(me.id)}<section class="card"><h2>${t('Quick services')}</h2><div class="tiles">${SV.map(s=>`<button class="t" onclick="A.svc('${s[1]}')"><i>${s[0]}</i>${t(s[1])}</button>`).join('')}</div></section>
+<div class="st"><div><b>${t(PLANS.find(p=>p[0]==me.plan)[1])}</b>${t('Your plan')}</div><div><b>${S.people.filter(p=>p.ok).length}</b>${t('Trusted people')}</div><div><b>${mine.filter(r=>r.st=='done').length}</b>${t('Requests done')}</div></div>`};
+const needVeh=()=>S.sv=='Cab'||(S.sv=='Hospital visit'&&S.f.veh=='yes');
+const svform=()=>{const hv=S.sv=='Hospital visit',fr=S.me.plan=='free';
+return `${hv?`<label>${t('Do you need a vehicle?')}</label><div class="sw"><button class="c ${S.f.veh!='yes'?'a':''}" onclick="A.veh('no')">🚶 ${t('No vehicle needed')}</button><button class="c ${S.f.veh=='yes'?'a':''}" onclick="A.veh('yes')">🚗 ${t('Vehicle needed')}${fr?' 🔒':''}</button></div><p class="mut">${t(S.f.veh=='yes'?'A volunteer will arrange a car or cab for the hospital trip.':'A volunteer will accompany you to the hospital.')}</p>`:''}${S.sv=='Cab'?`<p class="mut">🚗 ${t('A vehicle is included with every cab request.')}</p>`:''}
+<label for="rn">${t(S.sv=='Cab'?'Pick-up and drop (where to and from)':'Details')}</label><input id="rn" value="${esc(hv&&S.f.hsel?S.f.hsel+' — ':'')}" placeholder="${t(hv?'Which hospital, and what time?':S.sv=='Cab'?'Pick-up place and where you want to go':S.sv=='Check-in visit'?'Anything the volunteer should know (best time, gate, how you are feeling)':'What should the volunteer get or do?')}">${nh()}<label for="rw">${t('When?')}</label><select id="rw">${['Today','Tomorrow','This week'].map(o=>`<option value="${o}">${t(o)}</option>`).join('')}</select>
+<label for="rr">${t('Repeat?')}</label><select id="rr"><option value="">${t('Only once')}</option><option value="Every week">${t('Every week')}</option><option value="Every month">${t('Every month')}</option></select>${S.sv=='Medicine'?`<label for="rx">${t('Prescription photo')}</label><input id="rx" type="file" accept="image/*">`:''}
+${S.sv=='Check-in visit'?`<p class="mut">🏠 ${t('A nearby volunteer will visit your home to see that you are well. This is free.')}</p>`:''}<button class="b big" onclick="A.add()">${t(S.sv=='Check-in visit'?'Request a check-in visit':'Call a volunteer')}</button>`};
+V.elder.svc=()=>{const mine=S.req.filter(r=>r.by==S.me.id);
+return `<section class="card"><h2>${t('What do you need?')}</h2><div class="tiles">${SV.map(s=>{const lk=S.me.plan=='free'&&PAID.includes(s[1]);return `<button class="t ${S.sv==s[1]?'on':''} ${lk?'lk':''}" onclick="A.pick('${s[1]}')"><i>${s[0]}</i>${t(s[1])}${lk?'<span class="lkb">🔒 Care</span>':''}</button>`}).join('')}</div>${S.me.plan=='free'?`<p class="mut">${t('Free plan: SOS and volunteer check-in visits. Care plan adds travel (including hospital trips), medicine, groceries and more.')} <a href="#sub" onclick="A.tab('sub');return false">${t('See plans')}</a></p>`:''}
+${S.me.plan=='free'&&PAID.includes(S.sv)?`<div class="lockbox"><b>🔒 ${t(S.sv)} ${t('is part of the Care plan')}</b><p class="mut">${t('Upgrade to Care (Rs. 499 / month) for travel, including hospital trips, and help with medicine, groceries and other errands.')}</p><button class="b big" onclick="A.tab('sub')">${t('See plans')}</button></div>`:svform()}</section>
+<section class="card"><h2>${t('Volunteers free right now')}</h2><p class="mut">${L()?'മുകളിൽ വിവരങ്ങൾ നൽകി, ഒഴിവുള്ള സന്നദ്ധപ്രവർത്തകനോട് നേരിട്ട് ചോദിക്കൂ.':'Fill in the details above, then ask a free volunteer directly.'}</p>${(fv=>fv.map(v=>`<div class="it"><span class="ac"><span class="av">${v.name[0]}</span><span><b>${v.name}</b> ${pill(t('● Free'),'g')}<br><span class="mut">${v.fn||'Free today'} · ${L()?'വിശ്വാസ്യത':'trust'} ${v.trust||'New'}/5 · ${v.done||0} ${L()?'ജോലികൾ':'tasks done'}</span></span></span><button class="b sm" onclick="A.askv('${v.id}')">${t('Ask')} ${v.name.split(' ')[0]}</button></div>`).join('')||`<p class="mut">${L()?'ആരും ഒഴിവുണ്ടെന്ന് അടയാളപ്പെടുത്തിയിട്ടില്ല. “സന്നദ്ധപ്രവർത്തകനെ വിളിക്കൂ” അമർത്തുക.':'No volunteers have marked themselves free yet. Tap “Call a volunteer” to alert everyone nearby.'}</p>`)(S.acc.filter(a=>a.role=='vol'&&a.ok&&a.bio&&a.free).sort((x,y)=>(y.trust||0)-(x.trust||0)).slice(0,6))}</section>
+<section class="card"><h2>${t('My requests')}</h2>${mine.map(r=>`<div class="it" style="display:block"><b>${t(r.t)}</b> ${pill(t(r.when||r.w),'')}${r.rep?pill(t('Repeats:')+' '+t(r.rep)):''}${r.rx?pill(t('Prescription attached')):''}${r.veh?pill('🚗 '+t('Vehicle needed'),'g'):''}${r.to?pill(t('Ask')+': '+S.acc.find(a=>a.id==r.to).name,'g'):''}<div class="mut">${r.n}</div>${stp(r)}${r.st=='done'&&!r.rate?`<div class="row">${t('Rate')} ${r.v}: ${[1,2,3,4,5].map(n=>`<button class="b ghost sm" onclick="A.rate(${r.id},${n})">${n}</button>`).join('')}</div>`:''}</div>`).join('')||`<p class="mut">${t('No requests yet.')}</p>`}</section>`};
+V.elder.ppl=()=>{const ed=S.pe!=null;
+return `<section class="card"><h2>${t('My trusted people')}</h2><p class="mut">${t('They must accept before they see anything about you. You can remove them any time.')}</p>${S.people.map((l,i)=>`<div class="it"><span><b>${l.n}</b> · ${t(l.k)}<br><span class="mut">📞 ${l.ph||'—'}${l.em?' · ✉️ '+l.em:''}</span></span>${pill(t(l.ok?'Accepted':'Waiting to accept'),l.ok?'g':'w')}<span class="row"><button class="b ghost sm" onclick="A.pedit(${i})">✏️ ${t('Edit')}</button><button class="b ghost sm" onclick="A.rm(${i})">${t('Remove')}</button></span></div>`).join('')}</section>
+<section class="card"><h2>${t(ed?'Update details':'Invite someone')}</h2><p class="mut">${t('Name and phone are required. Email is optional.')}</p>${fld('iname',t('Name')+' *','text','autocomplete="off" required')}${ER('iname')}${fld('iphone',t('Phone number')+' *','tel','inputmode="tel" autocomplete="off" placeholder="98470 12345" required')}${ER('iphone')}${fld('iemail',t('Email')+' <span class="opt">'+t('(optional)')+'</span>','email','autocomplete="off" placeholder="name@example.com"')}${ER('iemail')}<label for="pk">${t('They will be my')}</label><select id="pk" onchange="S.f.ik=this.value">${['Family','Neighbour','Safety contact'].map(o=>`<option value="${o}" ${(S.f.ik||'Family')==o?'selected':''}>${t(o)}</option>`).join('')}</select><button class="b big" onclick="A.inv()">${t(ed?'Update details':'Send invitation')}</button>${ed?`<button class="b big ghost" onclick="A.pcan()">${t('Cancel')}</button>`:''}</section>`};
+V.elder.prof=PF;
+V.elder.sub=()=>{const m=S.me,cp=PLANS.find(p=>p[0]==m.plan),h=S.pays.filter(x=>x.by==m.id);
+return `<section class="card ok"><h2>${t('Current plan')}</h2><div class="sum"><span><b>${t(cp[1])}</b> · ${t(cp[2])}</span>${pill(t('Active'),'g')}</div>${m.renew?`<p class="mut">${t('Renews on')} ${m.renew}</p>`:''}</section>
+<section class="card"><h2>${t('Choose a plan')}</h2><div class="how">${PLANS.map(p=>`<div class="card plan ${m.plan==p[0]?'on':''}"><b>${t(p[1])}</b><p><b>${t(p[2])}</b></p><p class="mut">${p[3]}</p><button class="b ${m.plan==p[0]?'grn':'ghost'} sm" onclick="A.plan('${p[0]}')">${m.plan==p[0]?t('Current plan')+' ✓':t(PRICE[p[0]]?'Pay and choose':'Choose')}</button></div>`).join('')}</div><p class="mut">${t('Payments are simulated in this prototype. No real money is charged.')}</p></section>
+<section class="card"><h2>${t('Payment history')}</h2>${h.length?`<div style="overflow-x:auto"><table><tr>${['Date','Plan','Method','Amount','Reference'].map(x=>`<th>${t(x)}</th>`).join('')}</tr>${h.map(x=>`<tr><td>${x.at}</td><td>${t(x.plan)}</td><td>${x.mt}</td><td>₹${x.amt}</td><td>${x.ref}</td></tr>`).join('')}</table></div>`:`<p class="mut">${t('No payments yet.')}</p>`}</section>`};
+V.elder.fb=FB;
+V.elder.hosp=()=>`<section class="card"><h2>${t('Nearest hospitals')}</h2><p class="mut">${L()?'നിങ്ങളുടെ വീട്ടിൽ നിന്നുള്ള ദൂരം അനുസരിച്ച്.':'Sorted by straight-line distance from your home.'} · ${esc(S.hsrc)}</p><input id="hq" type="search" value="${esc(S.hq)}" placeholder="${t('Search hospital or place')}" aria-label="${t('Search hospital or place')}" oninput="A.hq(this.value)"><div class="sw">${hfl().map((f,i)=>`<button class="c ${S.hf==f[0]?'a':''}" onclick="A.hfil(${i})">${t(f[1])}</button>`).join('')}</div><div class="hs" id="hl">${hl()}</div></section>`;
+
+/* ---------- Volunteer ---------- */
+const OTP_TTL=5*60000;
+const otpv=r=>{if(!r.otp)return'<p class="wtx">Waiting for the admin to send the elder a one-time code…</p>';const dead=Date.now()-r.otpAt>OTP_TTL,e=S.f['oe'+r.id]||'';
+return `<p class="mut">The admin sent a code to ${esc(en(r.by))}’s phone. Ask them to tell it to you.</p>${dead?'<p class="wtx"><b>This code has expired.</b> Ask the admin to send a new one.</p>':`<label for="ov${r.id}">Enter the 4-digit code the elder tells you</label><input id="ov${r.id}" inputmode="numeric" maxlength="4" autocomplete="off" value="" placeholder="••••" oninput="S.f['oc${r.id}']=this.value.replace(/\\D/g,'')">${e?`<p class="err" role="alert">${e}</p>`:''}<button class="b big grn" onclick="A.otpv(${r.id})">Confirm code</button>`}`};
+V.vol.dash=()=>{const me=S.me,open=S.req.filter(r=>r.st=='open'&&(!r.to||r.to==me.id)),mine=S.req.filter(r=>r.v==me.name&&r.st!='done');
+return `<div><h1>Hello, ${me.name.split(' ')[0]}</h1><p class="mut">${me.ok?'You are verified. Thank you for helping.':''}</p></div>${upCard(mine)}${S.esc>0&&reached('vol')&&me.ok&&me.bio&&me.free?`<section class="card warn"><h2>🚨 Urgent: ${esc(WHO().n)} needs help</h2><p>${esc(WHO().a)}. ${S.kind=='sos'?'They pressed SOS.':'They missed their check-in.'} Nobody has acknowledged yet.</p>${S.ack?`<p><b>✓ ${esc(S.ack)} acknowledged${S.ackAt?' at '+esc(S.ackAt):''}.</b></p>`:`<button class="b big red" onclick="A.ack('${esc(me.name)} (volunteer)')">I’m going now</button>`}</section>`:''}${me.bio?'':`<section class="card warn"><h2>Fingerprint verification needed</h2><p>Scan your fingerprint once to start accepting requests.</p>${fp(S.bio==1?'scan':'')}<button class="b" onclick="A.scanMe()">Scan fingerprint</button></section>`}
+<section class="card ${me.free?'ok':''}"><h2>Your availability</h2><p>${me.free?'You are marked <b>free</b>. '+(me.fn||'')+'. Elders can see you and ask you directly.':'You are marked busy. Elders cannot ask you directly.'}</p>${me.free?'':`<label for="fu">I am free</label><select id="fu"><option>for the next hour</option><option>until this evening</option><option>all day today</option><option>this weekend</option></select>`}<button class="b big ${me.free?'ghost':'grn'}" ${me.bio?'':'disabled'} onclick="A.free()">${me.free?'I’m busy now':'I’m free to help'}</button></section>
+<section class="card"><h2>Requests near you</h2>${open.map(r=>`<div class="it"><span><b>${r.t}</b> ${r.veh?pill('🚗 Vehicle needed','g'):''}${r.to?pill('Asked for you','g'):''}· ${esc(en(r.by))} · ${r.d} km away · ${r.w}<br><span class="mut">${r.n}</span></span><button class="b sm" ${me.ok&&me.bio?'':'disabled'} onclick="A.acc(${r.id})">Accept</button></div>`).join('')||'<p class="mut">No open requests right now.</p>'}</section>
+<section class="card"><h2>My tasks</h2>${mine.map(r=>`<div class="it" style="display:block"><b>${r.t}</b> ${r.veh?pill('🚗 Vehicle needed','g'):''}for ${esc(en(r.by))}<div class="mut">${r.n}</div>${stp(r)}${r.st=='acc'?`<button class="b big" onclick="A.door(${r.id})">I’m at the door</button>`:r.st=='door'?otpv(r):`<button class="b big grn" onclick="A.fin(${r.id})">Mark completed</button>`}</div>`).join('')||'<p class="mut">No active tasks.</p>'}</section>`};
+V.vol.prof=()=>{const m=S.me;return `<section class="card ${m.ok?'ok':'warn'}" style="text-align:center">${fp(m.bio?'done':'')}<h2>Biometric ID ${m.bio?'verified ✓':'missing'}</h2>${pill(m.ok?'Approved by admin':'Waiting for approval',m.ok?'g':'w')}</section><div class="st"><div><b>${m.trust||'New'}</b>Trust score</div><div><b>${m.done||0}</b>Tasks done</div></div>`+PF()};
+V.vol.fb=FB;
+
+/* ---------- Donor ---------- */
+V.donor.dash=()=>`<div><h1>Hello, ${S.me.name.split(' ')[0]}</h1><p class="mut">You have given ₹${S.mine} so far.</p></div><section class="card"><h2>Donate</h2><p class="mut">The admin reviews every request before any money is paid out. Payments are simulated here.</p><div class="row">${[500,1000,2500].map(a=>`<button class="b ghost" onclick="A.give(${a})">₹${a}</button>`).join('')}</div><div class="row" style="margin-top:10px"><input id="da" type="number" placeholder="Other amount in ₹" aria-label="Amount"><button class="b" onclick="A.give()">Donate</button></div></section>${dhCard(S.me.id)}${trans()}`;
+V.donor.fb=FB;
+
+/* ---------- Admin ---------- */
+const doorCard=()=>{const d=S.req.filter(r=>r.st=='door');if(!d.length)return'';return `<section class="card warn"><h2>🚪 Volunteer at the door</h2><p class="mut">Send the elder a one-time code. The elder tells it to the volunteer, who enters it to continue.</p>${d.map(r=>{const dead=r.otp&&Date.now()-r.otpAt>OTP_TTL;return `<div class="it"><span><b>${esc(r.v)}</b> is at <b>${esc(en(r.by))}</b>’s door for ${esc(r.t.toLowerCase())}.<br><span class="mut">${r.otp?(dead?'Code expired.':'Code sent to the elder. Waiting for the volunteer to enter it.'):'No code sent yet.'}</span></span><button class="b grn sm" onclick="A.otps(${r.id})">${r.otp?'Send a new OTP':'Send OTP to elder'}</button></div>`}).join('')}</section>`};
+V.admin.dash=()=>`${doorCard()}${clCard()}${ahCard()}<section class="card"><h2>Overview</h2><div class="st"><div><b>${S.acc.filter(a=>a.role=='elder').length}</b>Elders</div><div><b>${S.acc.filter(a=>a.role=='vol'&&a.ok).length}</b>Verified volunteers</div><div><b>${S.req.filter(r=>r.st=='open').length}</b>Open requests</div><div><b>${S.fb.filter(x=>x.st=='Open'&&x.t=='Feedback').length}</b>Open feedback</div><div><b>${S.fb.filter(x=>x.st=='Open'&&x.t=='Complaint').length}</b>Open complaints</div><div><b>${S.fb.filter(x=>x.st=='Open'&&x.t=='Safety report').length}</b>Safety reports</div><div><b>${S.hosp.length}</b>Hospitals listed</div></div></section>`+
+alertCard()+escSet()+`<section class="card"><h2>Demo data</h2><p class="mut">Everything you do here is saved in this browser and survives a reload. Reset brings back the original demo data.</p><button class="b ghost" onclick="A.wipe()">Reset demo data</button></section>`;
+V.admin.vols=()=>`<section class="card"><h2>Give access by email</h2><p class="mut">Choose which page this email opens after login.</p>${fld('an','Full name')}${fld('ae','Email','email')}${fld('ap','Temporary password')}${fld('aph','Phone number (optional)','tel','inputmode="tel"')}<label>Opens the</label><div class="roles">${[['vol','🤝','Volunteer','page'],['donor','💝','Donor','page'],['elder','🧓','Elder','page']].map(x=>`<button type="button" class="rl ${(S.f.ar||'vol')==x[0]?'on':''}" onclick="S.f.ar='${x[0]}';go()"><i>${x[1]}</i>${x[2]}<small>${x[3]}</small></button>`).join('')}</div>${err()}<button class="b big" onclick="A.grant()">Grant access</button></section><section class="card"><h2>People and access</h2><div class="st"><div><b>${S.acc.filter(a=>a.role=='vol').length}</b>Volunteers</div><div><b>${S.acc.filter(a=>a.role=='vol'&&!a.ok).length}</b>Awaiting approval</div><div><b>${S.acc.filter(a=>a.role=='vol'&&a.ok&&a.free).length}</b>Free now</div></div><label for="aq">Search by name, phone, email or place</label><input id="aq" type="search" value="${esc(S.aq)}" placeholder="e.g. Nellikuzhi or 9437" oninput="A.aq(this.value)"><div class="sw">${[['all','All'],['vol','Volunteers'],['donor','Donors'],['pend','Awaiting approval']].map(f=>`<button class="c ${S.af==f[0]?'a':''}" onclick="A.af('${f[0]}')">${f[1]}</button>`).join('')}</div><div id="acl">${accL()}</div></section>`;
+V.admin.funds=()=>`<section class="card"><h2>Support requests</h2>${S.funds.map(f=>`<div class="it"><span><b>${f.n}</b> asks ₹${f.a}: ${f.w} ${pill(f.st,f.st=='pending'?'w':'')}</span>${f.st=='pending'?`<input id="u${f.id}" placeholder="How funds will be used" aria-label="Use of funds"><button class="b grn sm" onclick="A.fd(${f.id},1)">Approve</button><button class="b ghost sm" onclick="A.fd(${f.id},0)">Reject</button>`:''}</div>`).join('')}${err()}</section>${rcptCard()}${dhCard()}${trans()}`;
+V.admin.fb=()=>{const fs=[['all','All'],['Feedback','Feedback'],['Complaint','Complaints'],['Safety report','Safety reports']],l=S.fb.filter(x=>S.ff=='all'||x.t==S.ff);
+return `<section class="card"><h2>Feedback and complaints</h2><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">${fs.map(f=>`<button class="c ${S.ff==f[0]?'a':''}" onclick="S.ff='${f[0]}';go()">${f[1]} (${S.fb.filter(x=>f[0]=='all'||x.t==f[0]).length})</button>`).join('')}</div>${l.map(x=>`<div class="it"><span>${pill(x.t,x.t=='Feedback'?'':'w')}${x.ref?pill(x.ref):''}${x.ab?pill('About: '+x.ab,'w'):''}${pill({elder:'Elder',vol:'Volunteer',donor:'Donor'}[x.role]||'User')}<b>${x.by}</b> <span class="mut">${x.at||''}</span><br>${x.m}${x.vn?'<br><audio controls src="'+x.vn+'" style="width:100%"></audio>':''}</span>${x.st=='Open'?`<button class="b sm" onclick="A.res(${x.id})">Mark resolved</button>`:pill('Resolved','g')}</div>`).join('')||'<p class="mut">Nothing here.</p>'}</section>`};
+
+V.admin.eld=()=>{const E=S.acc.filter(a=>a.role=='elder'),c=k=>E.filter(e=>k=='all'||e.st==k).length;
+return `<section class="card"><h2>Elders on the platform</h2><div class="st"><div><b>${E.length}</b>Total elders</div><div><b>${c('ok')}</b>Checked in today</div><div><b>${c('late')}</b>Check-in pending</div><div><b>${c('alert')}</b>Needs attention</div><div><b>${E.filter(e=>e.plan!='free').length}</b>On paid plans</div></div>
+<label for="eq">Search by name, place or age</label><input id="eq" type="search" value="${esc(S.eq)}" placeholder="e.g. Nellikuzhi" oninput="A.eq(this.value)"><div class="sw">${[['all','All'],['ok','Checked in'],['late','Pending'],['alert','Needs attention']].map(f=>`<button class="c ${S.ef==f[0]?'a':''}" onclick="A.ef('${f[0]}')">${f[1]} (${c(f[0])})</button>`).join('')}</div><div id="eld">${eldL()}</div></section>`};
+V.admin.hosp=()=>`<section class="card"><h2>Hospital dataset</h2><div class="st"><div><b>${S.hosp.length}</b>Hospitals listed</div><div><b>${S.hosp.filter(h=>h.ph).length}</b>With phone</div><div><b>${new Set(S.hosp.map(h=>h.k)).size}</b>Categories</div></div><p class="mut">Source: <b>${esc(S.hsrc)}</b>. ${S.hsrc=='Hospital dataset'?'This is the built-in dataset. Import a new file below to replace it.':'Elders see these hospitals, sorted by distance.'}</p></section>
+<section class="card"><h2>Import your dataset</h2><p class="mut">Upload or paste a CSV (or JSON array) with columns like <b>name, type, place, lat, lng, phone, er</b>. Only name is required. Add lat and lng to get distances.</p><label for="hf">Choose a CSV or JSON file</label><input id="hf" type="file" accept=".csv,.json,.txt" onchange="A.hfile(this)"><label for="imp">Or paste it here</label><textarea id="imp" class="imp" oninput="S.f.imp=this.value" placeholder="name,type,place,lat,lng,phone,er">${esc(S.f.imp||'')}</textarea>${err()}<button class="b big" onclick="A.himp()">Import hospitals</button>${S.hsrc=='Hospital dataset'?'':'<button class="b big ghost" onclick="A.hreset()">Restore default dataset</button>'}</section>
+<section class="card"><h2>Preview</h2>${S.hosp.slice(0,10).map(h=>`<div class="it" style="display:block"><b>${esc(h.n)}</b> ${pill(esc(h.k))}<div class="mut">${esc(h.ad||h.p||'')}</div><div class="mut">📞 ${esc(h.ph||'—')} · ✉️ ${esc(h.em||'—')}</div></div>`).join('')}${S.hosp.length>10?`<p class="mut">+ ${S.hosp.length-10} more</p>`:''}</section>`;
+const pend=()=>`<header><b>♥ CareConnect</b><button class="b ghost sm" style="color:var(--on);border-color:var(--on)" onclick="A.out()">Log out</button></header><main class="in"><section class="card warn" style="text-align:center"><span class="hg">⏳</span><h1>Waiting for admin approval</h1><p>Hello, ${S.me.name}. Your ${S.me.role=='vol'?'volunteer':'donor'} access is not active yet. An admin must approve <b>${S.me.email}</b> first.</p><div class="bar"><i></i></div><p class="mut">Log in again after approval to open your page.</p></section></main>`;
+/* ---------- Footer (edit CONTACT to use your real details) ---------- */
+const CONTACT={addr:'Kothamangalam, Ernakulam, Kerala, India',phone:'+91 98767 89776',email:'hello@careconnect.demo',insta:'_____s_a_t_h_y_a____',whatsapp:'919037048119',waMsg:'Hello CareConnect! I would like some help.',facebook:'',youtube:'',hours:'Admin desk: 8 AM to 8 PM, every day'};
+const foot=()=>{const C=CONTACT,r=S.me&&S.me.ok?S.me.role:'',links=S.me&&S.me.ok?NAV[r].map(n=>`<li><a href="#${n[0]}">${t(n[1])}</a></li>`).join(''):`<li><a href="#how">${t('How it works')}</a></li><li><a href="#login" onclick="A.sm('login')">${t('Log in')}</a></li><li><a href="#login" onclick="A.sm('reg')">${t('Sign up')}</a></li>`,
+so=[['Instagram',C.insta&&'https://instagram.com/'+C.insta],['WhatsApp',C.whatsapp&&'https://wa.me/'+C.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(C.waMsg)],['Facebook',C.facebook&&'https://facebook.com/'+C.facebook],['YouTube',C.youtube&&'https://youtube.com/@'+C.youtube]].filter(x=>x[1]);
+return `<footer class="ft ${r=='elder'?'el':''}"><div class="in2"><div class="cols"><div><div class="br"><span>♥</span> CareConnect</div><h3 style="margin-top:14px">${t('About us')}</h3><p>${L()?'ഒറ്റയ്ക്ക് താമസിക്കുന്ന മുതിർന്നവരെ പരിശോധിച്ച അയൽക്കാരുമായും സന്നദ്ധപ്രവർത്തകരുമായും ബന്ധിപ്പിക്കുന്ന ഒരു കമ്മ്യൂണിറ്റി പ്ലാറ്റ്ഫോം.':'A community platform that connects elders living alone with verified neighbours and volunteers for daily errands, hospital visits and instant help, and keeps families in the loop from anywhere.'}</p></div>
+<div><h3>${t('Quick links')}</h3><ul>${links}</ul></div>
+<div><h3>${t('Contact')}</h3><div class="ct"><div><i>📍</i><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(C.addr)}" target="_blank" rel="noopener">${esc(C.addr)}</a></div><div><i>📞</i><a href="tel:${esc(C.phone.replace(/[^\d+]/g,''))}">${esc(C.phone)}</a></div><div><i>✉️</i><a href="mailto:${esc(C.email)}">${esc(C.email)}</a></div><div><i>🕘</i><span>${esc(C.hours)}</span></div></div></div></div>
+${so.length?`<div><h3>${t('Follow us')}</h3><div class="soc">${so.map(x=>`<a href="${esc(x[1])}" target="_blank" rel="noopener">${x[0]}</a>`).join('')}</div></div>`:''}
+<div class="sos"><span>🚨 <b>${t('In an emergency')}</b></span><a href="tel:108">${t('Ambulance')} 108</a><a href="tel:112">${t('Emergency')} 112</a></div>
+<div class="bt"><span>© ${new Date().getFullYear()} CareConnect. ${t('Living alone, never alone.')}</span><span>${L()?'ഇത് ഒരു ഡെമോ പ്രോട്ടോടൈപ്പ് ആണ്.':'Demo prototype. Payments are simulated.'}</span></div></div></footer>`};
+/* ---------- Shell ---------- */
+function shell(){const r=S.me.role;if(!S.me.ok)return pend();
+return `<header><b>♥ CareConnect</b><div class="row"><span>${S.me.name}</span>${lang()}<button class="b ghost sm" style="color:var(--on);border-color:var(--on)" onclick="A.theme()">${t('Light / dark')}</button><button class="b ghost sm" style="color:var(--on);border-color:var(--on)" onclick="A.out()">${t('Log out')}</button></div></header>
+<nav aria-label="Sections">${NAV[r].map(n=>`<a class="c ${S.tab==n[0]?'a':''}" href="#${n[0]}" ${S.tab==n[0]?'aria-current="page"':''}>${t(n[1])}</a>`).join('')}</nav>
+<main class="${S.anim?'in':''}">${nfBar()}${(V[r][S.tab]||V[r].dash)()}</main>${foot()}
+${r=='elder'?'<button class="sosf" onclick="A.sos()" aria-label="Emergency SOS">SOS</button>':''}
+${S.py?payM():''}
+${S.cd>0?`<div class="ov" role="alertdialog"><div class="card"><h2>${t('Sending SOS')}</h2><div class="cd">${S.cd}</div><p class="mut">${t('Your contacts, family and nearby volunteers will be alerted.')}</p><button class="b big ghost" onclick="A.cancel()">${t('Cancel, I pressed by mistake')}</button></div></div>`:''}
+${S.toast?`<div class="toast" role="status">${S.toast}</div>`:''}`}
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const polish=()=>{const h=$('.home');if(h)h.classList.add('in');$$('main.in>*,.home.in>*').forEach((e,i)=>e.style.animationDelay=Math.min(i,6)*40+'ms');if(RM)return;$$('.st b').forEach(b=>{const x=b.textContent.trim(),n=+x;if(Number.isInteger(n)&&n>0&&x===String(n)){const t0=performance.now();(function f(now){const p=Math.min(1,(now-t0)/600);b.textContent=Math.round(n*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}})};
+function go(a){document.documentElement.lang=L()?'ml':'en';S.anim=a;$('#app').innerHTML=S.me?shell():home();{const c=$('.chat');if(c)c.scrollTop=c.scrollHeight}if(a)polish();save()}
+const toast=m=>{S.toast=t(m);go();clearTimeout(tt);tt=setTimeout(()=>{S.toast='';soft()},2200)};
+
+/* ---------- Actions ---------- */
+A.theme=()=>{const d=document.documentElement,dk=d.dataset.theme?d.dataset.theme=='dark':matchMedia('(prefers-color-scheme: dark)').matches;d.dataset.theme=dk?'light':'dark';try{localStorage.setItem('cc_theme',d.dataset.theme)}catch(e){}};
+A.portal=p=>{S.portal=p;S.mode='login';S.f={};S.msg='';S.bio=0;go()};A.mode=()=>{S.mode=S.mode=='reg'?'login':'reg';S.f={};S.msg='';go()};
+A.login=()=>{const a=S.acc.find(a=>a.email==(S.f.email||'').trim().toLowerCase()&&a.pw==S.f.pw);if(!a){S.msg=t('Wrong email or password.');return go()}if(S.adm&&a.role!='admin'){S.msg='This email does not have admin access.';return go()}if(!S.adm&&a.role=='admin'){S.msg='Admins must use “Sign in as admin” below.';return go()}S.me=a;land();S.f={};S.msg='';go(1)};
+A.scan=()=>{S.bio=1;go();setTimeout(()=>{S.bio=2;go()},2000)};
+A.scanMe=()=>{S.bio=1;go();setTimeout(()=>{S.bio=0;S.me.bio=1;go()},2000)};
+A.grant=()=>{const{an,ae,ap}=S.f,r=S.f.ar||'vol';if(!an||!ae||!ap){S.msg='Fill in the name, email and password.';return go()}const e=ae.trim().toLowerCase();if(S.acc.find(a=>a.email==e)){S.msg='That email already has an account.';return go()}S.acc.push({id:e,email:e,pw:ap,name:an,role:r,ok:1,bio:0,plan:'free',ct:'09:00',phone:(S.f.aph||'').trim(),addr:'',trust:0,done:0});S.f={};S.msg='';toast('Access granted to '+e)};
+A.rev=id=>{S.acc.find(a=>a.id==id).ok=0;go()};
+A.reg=()=>{const{email:id,pw,name}=S.f,rl=S.f.r||'elder';if(!id||!pw||!name){S.msg='Please fill in every field.';return go()}if(rl=='vol'){const d=(S.f.phone||'').replace(/\D/g,'');if(d.length<10||d.length>13){S.msg='Please enter a valid phone number.';return go()}}if(rl=='vol'&&S.bio!=2){S.msg='Please complete the fingerprint scan.';return go()}if(S.acc.find(a=>a.email==id.trim().toLowerCase())){S.msg='That email is already registered.';return go()}
+const a={id:id.trim().toLowerCase(),email:id.trim().toLowerCase(),pw,name,role:rl,ok:rl=='elder',bio:S.bio==2,plan:'free',ct:'09:00',phone:(S.f.phone||'').trim(),addr:'',trust:0,done:0};S.acc.push(a);S.me=a;land();S.f={};S.msg='';S.bio=0;go(1)};
+A.out=()=>{S.me=null;S.adm=0;S.f={};S.msg='';S.edit=0;S.py=null;S.pe=null;S.fe={};try{history.replaceState(null,'',location.pathname+location.search)}catch(e){location.hash=''}go(1)};A.tab=k=>{S.tab=k;S.msg='';S.cf=0;S.edit=0;S.pe=null;S.fe={};go(1);scrollTo(0,0);if(location.hash!='#'+k)location.hash=k};
+const WHO=()=>S.who||{id:'ammini',n:'Ammini Amma',a:'12 Temple Road, Palakkad',p:'98470 12345'};
+function trig(k,e0){const el=e0||(S.me&&S.me.role=='elder'?S.me:null),loc=k=='sos'?S.loc:null;ALR('start',{eid:el&&el.id,kind:k,loc},()=>ESC.start(S,el,k,loc))}
+A.ack=w=>ALR('ack',{by:w},()=>ESC.ack(S,w));A.ackc=i=>{const s=(S.ch||[])[i];if(s&&s.c)A.ack(s.c.n+' (confirmed by admin)')};A.esec=v=>{S.escSec=Math.max(10,Math.min(900,+v||60));toast('Saved: '+S.escSec+' seconds per step')};
+A.miss=()=>trig('checkin');A.sos=()=>{S.cd=5;go();ct=setInterval(()=>{S.cd--;if(S.cd<=0){clearInterval(ct);S.cd=0;gps(()=>trig('sos'))}else soft()},1000)};A.cancel=()=>{clearInterval(ct);S.cd=0;go()};
+A.ok=()=>{if(S.me&&S.me.role=='elder')S.me.ciOk=new Date().toDateString();if(S.esc&&(!S.me||S.me.role!='elder'||WHO().id==S.me.id))ALR('resolve',{res:'Resolved: elder is okay'},()=>ESC.resolve(S,'Resolved: elder is okay'));S.last='Today, '+now();if(S.me&&S.me.role=='elder'){S.me.ciAt=now();postMsg('I’m okay today ✓','ok')}toast('Check-in saved. Thank you!')};
+A.call=()=>ALR('call',{},()=>ESC.call(S));A.close=()=>ALR('resolve',{res:'Closed by admin'},()=>ESC.resolve(S,'Closed by admin'));
+A.svc=t=>{S.sv=t;delete S.f.hsel;A.tab('svc')};
+A.aq=v=>{S.aq=v;$('#acl').innerHTML=accL()};A.af=k=>{S.af=k;go()};
+A.hq=v=>{S.hq=v;S.hn=8;$('#hl').innerHTML=hl()};A.hfil=i=>{S.hf=hfl()[i][0];S.hn=8;go()};A.hmore=()=>{S.hn+=8;$('#hl').innerHTML=hl()};
+A.hv=i=>{S.sv='Hospital visit';S.f.hsel=hn(S.hosp[i]);A.tab('svc')};A.hsel=i=>{S.f.hsel=hn(S.hosp[i]);go()};
+A.eq=v=>{S.eq=v;S.en=20;$('#eld').innerHTML=eldL()};A.ef=k=>{S.ef=k;S.en=20;go()};A.emore=()=>{S.en+=20;$('#eld').innerHTML=eldL()};
+const hcsv=x=>{const R=csv(x,x.split('\n')[0].includes('\t')?'\t':','),H=R.shift()||[];return R.map(r=>Object.fromEntries(H.map((h,i)=>[h,r[i]||''])))};
+A.himp=()=>{const x=(S.f.imp||'').trim();if(!x){S.msg='Paste your dataset or choose a file first.';return go()}let rows;try{if(/^[\[{]/.test(x)){let j=JSON.parse(x);if(!Array.isArray(j))j=Object.values(j).find(Array.isArray)||[];rows=j}else rows=hcsv(x)}catch(e){S.msg='Could not read that data. Check the format.';return go()}
+const l=norm(rows);if(!l.length){S.msg='No hospitals found. The data needs a name column.';return go()}S.hosp=l;S.hsrc='Imported dataset';S.msg='';S.hn=8;S.hf='all';S.f.imp='';try{localStorage.setItem('cc_hosp',JSON.stringify(l))}catch(e){}toast('Imported '+l.length+' hospitals')};
+A.hreset=()=>{S.hosp=HSEED.slice();S.hsrc='Hospital dataset';S.hf='all';try{localStorage.removeItem('cc_hosp')}catch(e){}toast('Default dataset restored')};
+A.hfile=el=>{const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{S.f.imp=String(r.result);A.himp()};r.readAsText(f)};A.pick=t=>{S.sv=t;go()};
+A.veh=v=>{if(v=='yes'&&S.me.plan=='free'){toast('Vehicle booking is part of the Care plan');return A.tab('sub')}S.f.veh=v;go()};
+const gate=()=>{if(S.me.plan=='free'&&(PAID.includes(S.sv)||needVeh())){toast('This is part of the Care plan. Upgrade to use it.');A.tab('sub');return true}return false};
+A.add=()=>{if(gate()||dup())return;S.req.unshift({veh:needVeh()?1:0,id:Date.now(),t:S.sv,n:$('#rn').value||'No extra details',w:$('#rw').value,st:'open',v:'',rep:$('#rr').value,rx:$('#rx')&&$('#rx').files.length?1:0,rate:0,by:S.me.id,d:(1+Math.random()*3).toFixed(1)});(famNf(S.me.id,'📋 '+S.me.name+' asked for help: '+S.sv),delete S.f.hsel,delete S.f.veh,toast('Request sent. Volunteers nearby are being notified.'))};
+A.acc=id=>{const r=S.req.find(r=>r.id==id);r.st='acc';r.v=S.me.name;const el=S.acc.find(a=>a.id==r.by)||{},tm=r.w=='Tomorrow';r.go=dstr(tm?1:0);
+S.nf.unshift({id:Date.now(),at:now(),to:'el:'+r.by,msg:'🤝 '+S.me.name+' accepted your “'+r.t+'” request.'});famNf(r.by,'🤝 '+S.me.name+' accepted “'+r.t+'” for '+(el.name||'the elder')+'.');
+if(tm){S.nf.unshift({id:Date.now()+1,at:now(),to:'vol:'+S.me.id,msg:'📅 Reminder: tomorrow you have to go to '+(el.name||'the elder')+(el.addr?' ('+el.addr+')':'')+' for “'+r.t+'”.'});toast('Accepted. Tomorrow you have to go to '+(el.name||'the elder')+'’s home.')}
+else toast('Accepted. Go to the address and tap “I’m at the door”.')};
+A.door=id=>{const r0=S.req.find(r=>r.id==id);r0.st='door';famNf(r0.by,'🚪 '+r0.v+' is at '+en(r0.by)+'’s door.');toast('The admin has been asked to send the elder a code')};
+A.otps=id=>{const r=S.req.find(x=>x.id==id);if(!r||r.st!='door')return;r.otp=String(1000+Math.floor(Math.random()*9000));r.otpAt=Date.now();r.tries=0;delete S.f['oe'+id];delete S.f['oc'+id];smsSend((S.acc.find(a=>a.id==r.by)||{}).phone,'Your CareConnect code is '+r.otp+'. Tell it to the volunteer only if you know them. Valid for 5 minutes.');toast('OTP sent to '+en(r.by)+'’s phone')};
+A.otpv=id=>{const r=S.req.find(x=>x.id==id);if(!r||r.st!='door'||!r.otp)return;const c=(S.f['oc'+id]||'').trim();
+if(Date.now()-r.otpAt>OTP_TTL){S.f['oe'+id]='This code has expired.';return go()}
+if(c===r.otp){famNf(r.by,'✓ '+r.v+' was verified at '+en(r.by)+'’s door.');r.st='ver';r.otpOk=1;r.otp='';delete S.f['oc'+id];delete S.f['oe'+id];toast('Verified ✓ The elder can now see you are trusted');return}
+r.tries=(r.tries||0)+1;if(r.tries>=3){S.fb.unshift({id:Date.now(),t:'Safety report',m:r.v+' entered a wrong OTP 3 times at '+en(r.by)+'’s door.',by:'System',st:'Open'});r.st='open';r.v='';r.otp='';toast('Too many wrong codes. The admin has been told and the request is open again.');return}
+S.f['oe'+id]='That code is not right. '+(3-r.tries)+' tries left.';go()};
+A.no=id=>{const r=S.req.find(r=>r.id==id);S.fb.unshift({id:Date.now(),t:'Safety report',m:'Elder did not recognise '+r.v+' at the door.',by:S.me.name,st:'Open'});r.st='open';r.v='';r.otp='';toast('Reported to the admin. The request is open again.')};
+A.fin=id=>{const r=S.req.find(r=>r.id==id);r.st='done';r.doneAt=now();S.me.done=(S.me.done||0)+1;const en_=en(r.by);
+S.cl.unshift({id:Date.now(),rid:r.id,vid:S.me.id,v:S.me.name,e:en_,t:r.t,at:now(),ack:0});
+S.nf.unshift({id:Date.now()+1,at:now(),to:'admin',msg:'✅ '+S.me.name+' completed “'+r.t+'” for '+en_+'.'},{id:Date.now()+2,at:now(),to:'fam:'+r.by,msg:'✅ '+S.me.name+' finished “'+r.t+'” for '+en_+'.'},{id:Date.now()+3,at:now(),to:'el:'+r.by,msg:'✅ Your “'+r.t+'” request is done. Please rate your volunteer.'});
+toast('Task completed. The admin has been told. Thank you!')};
+A.rate=(id,n)=>{const r=S.req.find(r=>r.id==id);r.rate=n;const v=S.acc.find(a=>a.name==r.v);if(v){v.trust=+(((v.trust||4.5)*10+n)/11).toFixed(1)}toast('Thanks for rating!')};
+
+
+
+
+A.res=id=>{S.fb.find(x=>x.id==id).st='Resolved';go()};A.appr=id=>{S.acc.find(a=>a.id==id).ok=1;go()};
+A.fd=(id,y)=>{const f=S.funds.find(f=>f.id==id),w=($('#u'+id).value||'').trim()||'Support approved';S.msg='';if(y){if(f.a>S.don-S.used){S.msg='Not enough funds in the pool yet.';return go()}S.used+=f.a;S.usedL.push({id:f.id,n:f.n,a:f.a,w,at:new Date().toLocaleDateString()});f.st='approved'}else f.st='rejected';go()};
+const donate=(a,ref,mode)=>{S.don+=a;S.mine+=a;S.dh.unshift({id:Date.now(),by:S.me.id,n:S.me.name,a,at:new Date().toLocaleDateString(),ref,mode});toast('Thank you for donating ₹'+a)};
+A.give=a=>{a=a||+$('#da').value;if(!(a>0))return;if(PAY.key){const pay=()=>new Razorpay({key:PAY.key,amount:a*100,currency:'INR',name:'CareConnect',description:'Donation',handler:r=>donate(a,r.razorpay_payment_id,'Razorpay')}).open();if(window.Razorpay)return pay();const sc=document.createElement('script');sc.src='https://checkout.razorpay.com/v1/checkout.js';sc.onload=pay;document.head.appendChild(sc);return}donate(a,'DN'+Math.floor(100000+Math.random()*900000),'Demo (no real money)')};
+const dup=()=>{const l=S.req.find(x=>x.by==S.me.id);return l&&l.t==S.sv&&Date.now()-l.id<4000};
+let mr,ch=[];
+A.rec=async()=>{if(mr&&mr.state=='recording'){mr.stop();return}try{const s=await navigator.mediaDevices.getUserMedia({audio:true});ch=[];mr=new MediaRecorder(s);mr.ondataavailable=e=>ch.push(e.data);mr.onstop=()=>{s.getTracks().forEach(t=>t.stop());S.vn=URL.createObjectURL(new Blob(ch,{type:mr.mimeType||'audio/webm'}));S.recording=0;go()};mr.start();S.recording=1;go()}catch(e){toast('The microphone is not available here. Please type your message.')}};
+A.vdel=()=>{S.vn='';go()};
+A.del=id=>{if(S.cf!=id){S.cf=id;return go()}const v=S.acc.find(a=>a.id==id);S.req.forEach(r=>{if(r.v==v.name&&r.st!='done'){r.st='open';r.v=''}if(r.to==id)r.to=''});S.acc=S.acc.filter(a=>a.id!=id);S.cf=0;toast('Volunteer deleted')};
+A.free=()=>{const m=S.me;if(m.free){m.free=0;m.fn=''}else{m.free=1;m.fn='Free '+$('#fu').value}toast(m.free?'You are now visible to elders':'You are marked busy')};
+A.askv=id=>{if(gate()||dup())return;const v=S.acc.find(a=>a.id==id);S.req.unshift({veh:needVeh()?1:0,id:Date.now(),t:S.sv,n:$('#rn').value||'No extra details',w:$('#rw').value,st:'open',v:'',to:id,rep:$('#rr').value,rx:$('#rx')&&$('#rx').files.length?1:0,rate:0,by:S.me.id,d:(1+Math.random()*3).toFixed(1)});(famNf(S.me.id,'📋 '+S.me.name+' asked '+v.name+' for help: '+S.sv),delete S.f.hsel,delete S.f.veh,toast('Request sent to '+v.name+'. Waiting for them to accept.'))};
+A.adm=v=>{S.adm=v;S.mode='login';S.f={};S.msg='';go()};A.fill=id=>{const a=S.acc.find(a=>a.id==id);S.f.email=a.email;S.f.pw=a.pw;S.msg='';go()};A.pickrole=r=>{S.f.r=r;go()};
+/* ---------- New: language, hash links, profile, invites, payment ---------- */
+const tabs=()=>S.me&&S.me.ok?NAV[S.me.role].map(n=>n[0]):[];
+const land=()=>{const h=location.hash.slice(1);S.tab=tabs().includes(h)?h:'dash';if(location.hash!='#'+S.tab)location.hash=S.tab};
+addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(S.me&&h!=S.tab&&tabs().includes(h))A.tab(h)});
+A.lang=()=>{S.lang=S.lang=='ml'?'en':'ml';S.msg='';go()};A.sm=m=>{if(S.mode!=m){S.mode=m;S.f={};S.msg='';S.bio=0;go()}};
+A.edit=()=>{const m=S.me;Object.assign(S.f,{sn:m.name,sp:/•/.test(m.phone||'')?'':(m.phone||''),sa:m.addr||'',sc:m.ct||'09:00'});S.edit=1;S.fe={};go()};
+A.pcan=()=>{S.edit=0;S.pe=null;S.fe={};['sn','sp','sa','sc','iname','iphone','iemail','ik'].forEach(k=>delete S.f[k]);go()};
+A.save=()=>{const m=S.me,f=S.f,n=(f.sn||'').trim(),p=(f.sp||'').trim(),dg=p.replace(/\D/g,''),er={};
+if(!n)er.sn=t('Please enter your name.');if(p&&(dg.length<10||dg.length>13))er.sp=t('Enter a valid phone number (10 digits).');
+S.fe=er;if(Object.keys(er).length)return go();m.name=n;m.phone=p;if(m.role=='elder'){m.addr=(f.sa||'').trim();m.ct=f.sc||m.ct}
+S.edit=0;['sn','sp','sa','sc'].forEach(k=>delete S.f[k]);toast('Profile updated')};
+A.pedit=i=>{const l=S.people[i];S.pe=i;S.fe={};Object.assign(S.f,{iname:l.n,iphone:l.ph||'',iemail:l.em||'',ik:l.k});go();const e=$('#iname');e.scrollIntoView({block:'center'});e.focus()};
+A.inv=()=>{const f=S.f,n=(f.iname||'').trim(),p=(f.iphone||'').trim(),e=(f.iemail||'').trim(),dg=p.replace(/\D/g,''),er={};
+if(!n)er.iname=t('Please enter their name.');
+if(!p)er.iphone=t('Please enter their phone number.');else if(!/^[+\d\s\-()]+$/.test(p)||dg.length<10||dg.length>13)er.iphone=t('Enter a valid phone number (10 digits).');
+if(e&&!/^\S+@\S+\.\S+$/.test(e))er.iemail=t('Enter a valid email, like name@example.com.');
+S.fe=er;if(Object.keys(er).length)return go();const k=f.ik||'Safety contact',up=S.pe!=null;
+if(up){Object.assign(S.people[S.pe],{n,ph:p,em:e,k});S.pe=null}else S.people.push({n,ph:p,em:e,k,ok:0,of:S.me.id});
+['iname','iphone','iemail','ik'].forEach(x=>delete S.f[x]);toast(up?'Details updated':e?'Invitation sent by SMS and email':'Invitation sent by SMS')};
+A.rm=i=>{S.people.splice(i,1);S.pe=null;S.fe={};['iname','iphone','iemail','ik'].forEach(x=>delete S.f[x]);go()};
+A.ft=k=>{S.f.ft=k;go()};
+A.fb=()=>{const m=$('#fm').value.trim(),ty=S.f.ft||'Feedback';if(!m&&!S.vn)return toast('Please type or record a message first');
+const ref={Feedback:'F','Complaint':'C','Safety report':'S'}[ty]+'-'+(++S.fbn);
+S.fb.unshift({id:Date.now(),ref,t:ty,m:m||'(Voice note)',vn:S.vn,by:S.me.name,role:S.me.role,at:now(),st:'Open',ab:ty=='Complaint'?(S.f.fa||'A volunteer'):''});
+S.vn='';['fm','ft','fa'].forEach(k=>delete S.f[k]);toast(ty=='Complaint'?(L()?'പരാതി സമർപ്പിച്ചു. റഫറൻസ് '+ref+'.':'Complaint submitted. Reference '+ref+'. The admin will look into it.'):'Sent to the admin. Thank you.')};
+A.plan=p=>{if(S.me.plan==p)return;if(PRICE[p])return A.pay(p);S.me.plan=p;S.me.renew='';toast('Plan updated')};
+const PK=['pupi','pcn','pcx','pcv','pnm','potp'];
+A.pay=p=>{S.py={p,m:'upi',step:'form',bank:'',e:''};PK.forEach(k=>delete S.f[k]);S.f.pnm=S.me.name;go()};
+A.pm=m=>{S.py.m=m;S.py.e='';go()};A.bank=b=>{S.py.bank=b;S.py.e='';go()};
+A.fc=el=>{el.value=el.value.replace(/\D/g,'').slice(0,16).replace(/(.{4})(?=.)/g,'$1 ');S.f.pcn=el.value};
+A.fx=el=>{let v=el.value.replace(/\D/g,'').slice(0,4);if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);el.value=v;S.f.pcx=v};
+A.ppay=()=>{const y=S.py,f=S.f,n=(f.pcn||'').replace(/\D/g,''),x=(f.pcx||'').split('/'),d=new Date();let e='';
+if(y.m=='upi'){if(!/^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test((f.pupi||'').trim()))e='Enter a valid UPI ID, like name@bank.'}
+else if(y.m=='card'){if(!(f.pnm||'').trim())e='Enter the name on the card.';else if(n.length!=16)e='Card number must be 16 digits.';else if(!/^(0[1-9]|1[0-2])\/\d\d$/.test(f.pcx||''))e='Enter the expiry as MM/YY.';else if(2000+ +x[1]<d.getFullYear()||(2000+ +x[1]==d.getFullYear()&&+x[0]<d.getMonth()+1))e='This card has expired.';else if(!/^\d{3}$/.test(f.pcv||''))e='CVV must be 3 digits.'}
+else if(!y.bank)e='Choose your bank first.';
+y.e=e?t(e):'';if(e)return go();
+y.step='proc';y.msg=t(y.m=='upi'?'Waiting for approval in your UPI app…':y.m=='card'?'Contacting your bank…':'Redirecting to')+(y.m=='net'?' '+y.bank+'…':'');go();
+setTimeout(()=>{if(S.py!==y)return;if(y.m=='upi')A.pdone();else{y.step='otp';y.otpAt=Date.now();y.tries=0;go()}},y.m=='upi'?3000:1800)};
+A.potp=()=>{const y=S.py;if(Date.now()-(y.otpAt||0)>OTP_TTL){y.step='form';y.e=t('This code has expired.');PK.forEach(k=>delete S.f[k]);S.f.pnm=S.me.name;return go()}
+if((S.f.potp||'').trim()!='123456'){y.tries=(y.tries||0)+1;if(y.tries>=3){S.py=null;PK.forEach(k=>delete S.f[k]);return toast('Too many wrong OTPs. Payment cancelled.')}y.e=t('Wrong OTP. In this demo the OTP is 123456.')+' ('+(3-y.tries)+' left)';return go()}y.e='';y.step='proc';y.msg=t('Confirming your payment…');go();setTimeout(()=>{if(S.py===y)A.pdone()},1500)};
+A.pdone=()=>{const y=S.py,f=S.f,pl=PLANS.find(p=>p[0]==y.p),d=new Date(),nx=new Date(d),fm=z=>z.toLocaleDateString([],{day:'numeric',month:'short',year:'numeric'});nx.setMonth(nx.getMonth()+1);
+const mt=y.m=='upi'?'UPI · '+(f.pupi||'').trim():y.m=='card'?'Card ···· '+(f.pcn||'').replace(/\D/g,'').slice(-4):y.bank+' · Net banking';
+y.rec={plan:pl[1],amt:PRICE[y.p],mt,ref:'CC'+String(Date.now()).slice(-8),at:fm(d),nx:fm(nx)};
+S.pays.unshift(Object.assign({by:S.me.id},y.rec));S.me.plan=y.p;S.me.renew=y.rec.nx;y.step='ok';PK.forEach(k=>delete S.f[k]);go()};
+A.pclose=()=>{S.py=null;PK.forEach(k=>delete S.f[k]);go()};
+const route=()=>{S.mode='login';S.f={};S.msg='';S.bio=0;go(1)};
+/* ---------- Saved data: kept in this browser; optional shared cloud sync ---------- */
+const KEY='cc_state',DV='2026-11-24-v3',SH=['who','ack','acc','req','people','fb','funds','don','used','usedL','mine','pays','fbn','last','esc','kind','log','called','nf','ah','dh','msgs','cl','ch','nextAt','ackAt','alId','escSec'];
+const vnx=(k,v)=>k=='vn'?undefined:v;let lt=0,svt=0;
+const shared=()=>{const o={};SH.forEach(k=>o[k]=S[k]);return o};
+const apply=o=>{SH.forEach(k=>{if(o[k]!==undefined)S[k]=o[k]});if(S.me)S.me=S.acc.find(a=>a.id==S.me.id)||null};
+let lastStr='';const sess=()=>{try{sessionStorage.setItem('cc_sess',JSON.stringify({dv:DV,me:S.me&&S.me.id,adm:S.adm,lang:S.lang}))}catch(e){}};
+const save=()=>{sess();clearTimeout(svt);svt=setTimeout(()=>{try{const str=JSON.stringify({dv:DV,s:shared()},vnx);if(str!==lastStr){lastStr=str;localStorage.setItem(KEY,str)}}catch(e){}
+if(API.on&&API.base)sync()},400)};
+A.wipe=()=>{try{localStorage.removeItem(KEY);sessionStorage.removeItem('cc_sess')}catch(e){}const done=()=>location.reload();if(API.on)api(API.url+'/api/reset',{}).then(r=>{if(r&&r.ok)done();else toast('Reset is turned off on the server')}).catch(()=>toast('Could not reach the server'));else done()};
+try{const th=localStorage.getItem('cc_theme');if(th)document.documentElement.dataset.theme=th}catch(e){}
+try{const raw=localStorage.getItem(KEY),j=JSON.parse(raw||'null');if(j&&j.dv==DV){apply(j.s);lastStr=raw}}catch(e){}
+try{const j=JSON.parse(sessionStorage.getItem('cc_sess')||'null');if(j&&j.dv==DV){S.lang=j.lang||'en';if(j.me){S.me=S.acc.find(a=>a.id==j.me)||null;S.adm=j.adm?1:0}}}catch(e){}
+addEventListener('storage',e=>{if(e.key!==KEY||!e.newValue)return;try{const j=JSON.parse(e.newValue);if(j&&j.dv==DV){lastStr=e.newValue;apply(j.s);soft()}}catch(_){}});
+if(S.me)land();
+const BOOT=Date.now(),CI_GRACE=30; /* minutes to answer the reminder before an alert starts */
+const ciTick=()=>{if(API.on)return;if(ESC.ci(S,Date.now(),BOOT,CI_GRACE))soft()};
+setInterval(()=>{if(API.on)return;if(ESC.step(S,Date.now()))soft()},1000);
+setInterval(ciTick,20000);setTimeout(ciTick,1500);
+const visTick=()=>{const n=new Date(),d=n.toDateString();S.acc.filter(a=>a.role=='elder'&&!a.g&&(a.vd||[]).includes(n.getDay())).forEach(e=>{const[h,m]=(e.vt||'10:00').split(':').map(Number),due=new Date(n);due.setHours(h,m,0,0);if(n<due||e.vDay==d)return;e.vDay=d;S.req.unshift({id:Date.now(),t:'Check-in visit',n:'Scheduled home visit ('+DAYS[n.getDay()]+', '+(e.vt||'10:00')+')',w:'Today',st:'open',v:'',to:e.vp||undefined,sched:1,rep:'',rx:0,rate:0,by:e.id,d:(1+Math.random()*3).toFixed(1),veh:0});S.nf.unshift({id:Date.now()+1,at:now(),to:'vol',msg:'🏠 Scheduled visit today: '+e.name+' · '+(e.vt||'10:00')},{id:Date.now()+2,at:now(),to:'el:'+e.id,msg:'🏠 Your home visit is today. A volunteer will come around '+(e.vt||'10:00')+'.'});soft()})};
+setInterval(visTick,30000);setTimeout(visTick,2000);
+addEventListener('pointerdown',e=>{const b=e.target.closest&&e.target.closest('.b,.c,.t,.rl,.sosf');if(b&&navigator.vibrate)try{navigator.vibrate(b.classList.contains('sosf')?20:8)}catch(_){}},{passive:true});
+/* ---------- v4: reminders, live family chat, task acknowledgements ---------- */
+Object.assign(T,{'acknowledged':'അംഗീകരിച്ചു','at':'സമയം','Escalation stopped':'അലർട്ട് നിർത്തി','Waiting for someone to acknowledge. Next alert at':'ആരെങ്കിലും സ്ഥിരീകരിക്കാൻ കാത്തിരിക്കുന്നു. അടുത്ത അലർട്ട്:','Family chat':'കുടുംബ ചാറ്റ്','Type a message':'സന്ദേശം ടൈപ്പ് ചെയ്യൂ','Send':'അയയ്ക്കൂ','No messages yet.':'സന്ദേശങ്ങളൊന്നുമില്ല.','✓ I’m okay':'✓ ഞാൻ സുഖമായിരിക്കുന്നു','Call me':'എന്നെ വിളിക്കൂ','Get phone reminders':'ഫോൺ റിമൈൻഡർ വേണം','Your family can see your messages here.':'നിങ്ങളുടെ സന്ദേശങ്ങൾ കുടുംബത്തിന് ഇവിടെ കാണാം.'});
+const dstr=k=>{const d=new Date();d.setDate(d.getDate()+k);return d.toDateString()};
+const pushN=(title,body)=>{try{if('Notification' in window&&Notification.permission=='granted'){new Notification(title,{body,tag:'cc-live'});if(navigator.vibrate)navigator.vibrate([120,60,120])}}catch(e){}};
+const notifBtn=()=>('Notification' in window&&Notification.permission=='default')?`<button class="b ghost sm" onclick="A.notif()">🔔 ${t('Get phone reminders')}</button>`:'';
+A.notif=()=>{try{Notification.requestPermission().then(()=>{go();pushSub();pushN('CareConnect','Reminders are on. We will ask “R U OK?” at your check-in time.')})}catch(e){}};
+/* Pop a phone notification whenever something new arrives for the person using this device. */
+let seenNf=Date.now();
+const liveTick=()=>{if(!S.me)return;pushSub();const ks=nfKeys(),nw=S.nf.filter(x=>ks.includes(x.to)&&x.id>seenNf);if(!nw.length)return;seenNf=Math.max(...nw.map(x=>x.id));pushN('CareConnect',nw[0].msg);soft()};
+setInterval(liveTick,3000);
+const postMsg=(txt,k)=>{const me=S.me,el=me.role=='elder',eid=el?me.id:me.of;S.msgs.unshift({id:Date.now()+Math.random(),eid,from:el?'elder':'fam',n:me.name,txt,at:now(),k:k||'msg'});
+S.nf.unshift({id:Date.now()+1,at:now(),to:el?'fam:'+eid:'el:'+eid,msg:(k=='ping'?'👋 ':'💬 ')+me.name.split(' ')[0]+': '+txt})};
+const chatCard=(eid,side)=>{const mine=side=='elder'?'elder':'fam',l=S.msgs.filter(m=>m.eid==eid).slice(0,15).reverse(),el=side=='elder';
+return `<section class="card" id="chat"><h2>💬 ${t('Family chat')}</h2><p class="mut">${el?t('Your family can see your messages here.'):'Messages go straight to '+esc(en(eid))+'. You will be alerted when they reply.'}</p>
+<div class="chat" aria-live="polite">${l.length?l.map(m=>`<div class="bub ${m.from==mine?'me':''} ${m.k=='ok'?'ok':m.k=='ping'?'ping':''}"><small>${esc(m.n)} · ${m.at}</small>${esc(m.txt)}</div>`).join(''):`<p class="mut">${t('No messages yet.')}</p>`}</div>
+<div class="row" style="margin-bottom:8px">${el?`<button class="b grn sm" onclick="A.ok()">${t('✓ I’m okay')}</button><button class="b ghost sm" onclick="A.cq('Please call me.')">${t('Call me')}</button>`:`<button class="b sm" onclick="A.ruok()">👋 Ask: R U OK?</button>`}</div>
+<div class="cin"><input id="cm" aria-label="${t('Type a message')}" placeholder="${t('Type a message')}" value="${esc(S.f.cm||'')}" oninput="S.f.cm=this.value" onkeydown="if(event.key=='Enter')A.csend()"><button class="b" onclick="A.csend()">${t('Send')}</button></div></section>`};
+A.csend=()=>{const x=(S.f.cm||'').trim();if(!x)return;postMsg(x);S.f.cm='';go()};
+A.cq=x=>{postMsg(x);go()};
+A.ruok=()=>{postMsg('R U OK? Please tap “I’m okay”.','ping');toast('Sent. They will see it right away.')};
+const liveCard=(e,al)=>{const d=new Date().toDateString(),ok=e.ciOk==d,last=e.ciAt||S.last,fn=esc(e.name.split(' ')[0]);
+return `<section class="card ${al?'warn':ok?'ok':''}"><div class="livest"><span class="big">${al?'⚠️':ok?'✅':'⏳'}</span><div><h2 style="margin:0">${al?fn+' needs attention':ok?fn+' is okay':'Waiting for '+fn+'’s check-in'}</h2><span class="mut">${al?(S.kind=='sos'?'SOS pressed':'Missed check-in')+'. Please confirm if you are on it.':ok?'Checked in today at '+esc(String(last).replace('Today, ','')):'Daily check-in is due at '+esc(e.ct||'09:00')+'. You can ask “R U OK?” below.'}</span></div></div>${al?chain()+(S.ack?'':`<button class="b big red" onclick="A.ack('${esc(S.me.name)}')">✓ I’m responding</button>`):''}</section>`};
+const clCard=()=>{if(!S.cl.length)return'';return `<section class="card ok"><h2>✅ Completed by volunteers</h2>${S.cl.slice(0,6).map(c=>`<div class="it"><span><b>${esc(c.v)}</b> completed <b>${esc(c.t)}</b> for ${esc(c.e)}<br><span class="mut">${c.at}</span></span>${c.ack?pill('Acknowledged','g'):`<button class="b grn sm" onclick="A.clack(${c.id})">Acknowledge</button>`}</div>`).join('')}</section>`};
+A.clack=id=>{const c=S.cl.find(x=>x.id==id);if(!c||c.ack)return;c.ack=1;S.nf.unshift({id:Date.now(),at:now(),to:'vol:'+c.vid,msg:'👍 The admin saw that you completed “'+c.t+'” for '+c.e+'. Thank you!'});toast('Volunteer thanked')};
+const upCard=mine=>{const l=mine.filter(r=>r.go==dstr(0)||r.go==dstr(1));if(!l.length)return'';
+return `<section class="card warn"><h2>📅 Your upcoming work</h2>${l.map(r=>{const el=S.acc.find(a=>a.id==r.by)||{},tm=r.go==dstr(1);return `<div class="it"><span><b>${tm?'Tomorrow':'Today'} you have to go</b> to ${esc(el.name||'the elder')}${el.addr?' · '+esc(el.addr):''}<br><span class="mut">${esc(r.t)} · ${esc(r.n)}</span></span>${pill(tm?'Tomorrow':'Today',tm?'w':'g')}</div>`}).join('')}</section>`};
+
+/* CareConnect escalation engine.
+   ONE source of truth: the server requires this file, and the app (public/index.html) has the same code inlined.
+   It works on a plain state object, so it runs identically on the server and in the browser (offline demo mode). */
+(function (root, f) { if (typeof module === 'object' && module.exports) module.exports = f(); else root.ESC = f(); })(typeof self !== 'undefined' ? self : this, function () {
+  const MSG = '👋 R U OK? Time for your daily check-in. Tap “I’m okay”.';
+  const D = s => String(s == null ? '' : s).replace(/\D/g, '');
+  const clock = () => new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  let lastId = 0;
+  const nid = () => { lastId = Math.max(Date.now(), lastId + 1); return lastId; };
+  const tok = () => Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 8);
+  const real = p => p && !/•/.test(p) && D(p).length >= 10;
+  const who = st => st.who || { id: 'ammini', n: 'Ammini Amma', a: '', p: '' };
+  const push = (st, o) => { (st.nf = st.nf || []).unshift(Object.assign({ id: nid(), at: clock() }, o)); };
+  const lg = (st, m) => { st.log = st.log || []; st.log.push(clock() + ' · ' + m); const a = (st.ah || []).find(x => x.id == st.alId); if (a) a.log = st.log.slice(); };
+
+  /* Escalation order = the elder's Trusted people list (in that order), then free volunteers, then the admin, then 108/112. */
+  function build(st, el) {
+    const people = (st.people || []).filter(p => p.ok && (p.of || 'ammini') == el.id);
+    const fams = (st.acc || []).filter(a => a.role == 'family' && a.of == el.id), used = new Set(), ct = [];
+    people.forEach(p => {
+      const f = fams.find(a => D(a.phone) && D(a.phone) == D(p.ph));
+      if (f) used.add(f.id);
+      ct.push({ n: p.n, ph: p.ph || '', key: f ? 'fam:' + el.id : '', tok: tok() });
+    });
+    fams.filter(a => !used.has(a.id)).forEach(a => ct.push({ n: a.name, ph: a.phone || '', key: 'fam:' + el.id, tok: tok() }));
+    const ch = ct.map(c => ({ k: 'contact', c }));
+    ch.push({ k: 'vol' }, { k: 'admin' }, { k: '112' });
+    return { ch, fams };
+  }
+
+  function notify(st, i) {
+    const s = st.ch[i], w = who(st), sec = st.escSec || 60, ah = (st.ah || []).find(x => x.id == st.alId), loc = ah && ah.loc;
+    const base = (st.kind == 'sos' ? '🆘 SOS from ' : '⚠ Missed check-in: ') + w.n + (w.a ? ' · ' + w.a : '') + (loc ? ' · live location shared' : '');
+    const wait = i < st.ch.length - 1, tail = wait ? ' Waiting ' + sec + 's for an acknowledgement.' : '';
+    if (s.k == 'contact') {
+      const c = s.c;
+      if (c.key) push(st, { to: c.key, msg: base + ' · please acknowledge', urgent: 1 });
+      if (real(c.ph)) push(st, { to: 'sms', ph: c.ph, msg: base + '. Please confirm you are on the way:', tok: c.tok, sms: 1 });
+      lg(st, 'Alerted ' + c.n + '.' + tail);
+    } else if (s.k == 'vol') {
+      const v = (st.acc || []).filter(a => a.role == 'vol' && a.ok && a.bio && a.free);
+      push(st, { to: 'vol', msg: base + ' · welfare check needed', urgent: 1 });
+      v.forEach(a => { if (real(a.phone)) push(st, { to: 'sms', ph: a.phone, msg: base + '. Please help if you can.', sms: 1 }); });
+      lg(st, 'No acknowledgement yet. Alerting ' + v.length + ' free volunteer' + (v.length == 1 ? '' : 's') + ' nearby.' + tail);
+    } else if (s.k == 'admin') {
+      push(st, { to: 'admin', msg: '🚨 No one has acknowledged the alert for ' + w.n + '.', urgent: 1 });
+      lg(st, 'Still no acknowledgement. Escalated to the admin.' + tail);
+    } else {
+      push(st, { to: 'admin', msg: '🚨 Call 108 / 112 for ' + w.n + (w.a ? ' · ' + w.a : ''), urgent: 1 });
+      lg(st, 'Still no acknowledgement. Admin to call 108 / 112.');
+    }
+    st.esc = i + 1;
+    st.nextAt = wait ? Date.now() + sec * 1000 : 0;
+  }
+
+  function start(st, el, kind, loc) {
+    el = el || (st.acc || []).find(a => a.id == 'ammini') || { id: 'ammini', name: 'Ammini Amma' };
+    const b = build(st, el);
+    st.kind = kind; st.called = 0; st.log = []; st.ack = null; st.ackAt = null;
+    st.ch = b.ch; st.who = { id: el.id, n: el.name, a: el.addr || '', p: el.phone || '' }; st.alId = nid();
+    (st.ah = st.ah || []).unshift({ id: st.alId, eid: el.id, k: kind, at: clock(), who: st.who, loc: loc || null, log: [], res: 'Open' });
+    const msg = (kind == 'sos' ? '🆘 SOS from ' : '⚠ Missed check-in: ') + el.name + (loc ? ' · live location shared' : '');
+    lg(st, kind == 'sos' ? 'SOS pressed.' : 'Check-in missed.');
+    if (b.fams.length && !(b.ch[0].k == 'contact' && b.ch[0].c.key)) { push(st, { to: 'fam:' + el.id, msg: msg + ' · tap “I’m responding” if you are on it' }); lg(st, 'Family updated: ' + b.fams.map(a => a.name).join(', ') + '.'); }
+    push(st, { to: 'admin', msg: msg + ' · escalation started' });
+    st.esc = 0; notify(st, 0);
+  }
+
+  /* Move to the next person only when time is up AND nobody has acknowledged. */
+  function step(st, t) {
+    if (!st.esc || st.ack || !st.nextAt || t < st.nextAt || st.esc >= (st.ch || []).length) return false;
+    notify(st, st.esc); return true;
+  }
+
+  function ack(st, by) {
+    if (!st.esc || st.ack) return false;
+    st.ack = by; st.ackAt = clock(); st.nextAt = 0;
+    lg(st, by + ' acknowledged at ' + st.ackAt + '. Escalation stopped.');
+    const a = (st.ah || []).find(x => x.id == st.alId); if (a) a.res = 'Acknowledged by ' + by + ' · ' + st.ackAt;
+    const w = who(st);
+    ['admin', 'fam:' + w.id, 'el:' + w.id].forEach(to => push(st, { to, msg: '✓ ' + by + ' acknowledged the alert for ' + w.n + ' at ' + st.ackAt + '.' }));
+    return true;
+  }
+
+  function resolve(st, res) {
+    if (!st.esc) return false;
+    const a = (st.ah || []).find(x => x.id == st.alId); if (a) a.res = res;
+    lg(st, res + '.');
+    st.esc = 0; st.ack = null; st.ackAt = null; st.nextAt = 0; return true;
+  }
+  function call(st) { if (!st.esc || st.called) return false; st.called = 1; lg(st, 'Admin called 108 / 112. Ambulance requested.'); return true; }
+
+  /* Daily check-in: remind (and repeat every 10 min), then start an alert if still no answer after `grace` minutes. */
+  function ci(st, t, boot, grace) {
+    const n = new Date(t), d = n.toDateString(); let ch = false;
+    (st.acc || []).filter(a => a.role == 'elder' && !a.g && a.ct).forEach(e => {
+      const [h, m] = e.ct.split(':').map(Number), due = new Date(n); due.setHours(h, m, 0, 0);
+      if (n < due || e.ciOk == d) return;
+      if (e.ciDay != d || (e.ciAl != d && t - (e.ciNx || 0) > 600000)) {
+        e.ciDay = d; e.ciNx = t;
+        st.nf = (st.nf || []).filter(x => !(x.to == 'el:' + e.id && x.msg == MSG));
+        push(st, { to: 'el:' + e.id, msg: MSG }); ch = true;
+      }
+      if (e.ciAl != d && !st.esc && t - Math.max(+due, boot) > grace * 60000) { e.ciAl = d; start(st, e, 'checkin', null); ch = true; }
+    });
+    return ch;
+  }
+  return { MSG, build, start, step, ack, resolve, call, ci, push, lg, nid };
+});
+
+/* ---------- v5: backend connection (cross-device sync, server-side alerts, phone push) ---------- */
+const API={url:'',on:false,v:0,push:false,sms:false,vapid:'',cid:Math.random().toString(36).slice(2),base:null,busy:0,again:0};
+/* If the app is opened from the server (npm start) this connects by itself. Opened as a plain file it runs offline as before.
+   To host this page elsewhere, set API.url to your server, e.g. 'https://careconnect.example.com'. */
+const IDK=['acc','req','fb','funds','usedL','dh','nf','msgs','cl'],OWN=['who','ack','ackAt','esc','kind','log','called','ch','nextAt','alId','ah'];
+const api=(u,b)=>fetch(u,b===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b,vnx)}).then(r=>r.json());
+const snapOf=o=>{const r={};SH.forEach(k=>{if(OWN.includes(k))return;r[k]=IDK.includes(k)?Object.fromEntries((o[k]||[]).map(x=>[x.id,JSON.stringify(x)])):JSON.stringify(o[k]===undefined?null:o[k])});return r};
+const diff=()=>{const cur=snapOf(S),b=API.base||{},p={set:{},del:{},v:{}};let n=0;Object.keys(cur).forEach(k=>{if(IDK.includes(k)){const c=cur[k],o=b[k]||{},s=Object.keys(c).filter(i=>c[i]!==o[i]).map(i=>JSON.parse(c[i])),d=Object.keys(o).filter(i=>!(i in c));if(s.length){p.set[k]=s;n++}if(d.length){p.del[k]=d;n++}}else if(cur[k]!==b[k]){p.v[k]=JSON.parse(cur[k]);n++}});return{p,n,cur}};
+const adopt=(r,cur)=>{if(!r||!r.s)return false;const now=snapOf(S);SH.forEach(k=>{if(r.s[k]===undefined)return;if(!OWN.includes(k)&&cur&&JSON.stringify(now[k])!==JSON.stringify(cur[k]))return;S[k]=r.s[k]});if(S.me)S.me=S.acc.find(a=>a.id==S.me.id)||null;API.base=snapOf(r.s);API.v=r.v;return true};
+const sync=()=>{if(!API.on||!API.base)return;if(API.busy){API.again=1;return}API.busy=1;const d=diff(),was=API.v;api(API.url+'/api/sync',{cid:API.cid,v:API.v,patch:d.n?d.p:null}).then(r=>{API.busy=0;if(r&&r.s&&adopt(r,d.cur)&&r.v!=was)soft();if(API.again){API.again=0;sync()}}).catch(()=>{API.busy=0})};
+/* Alert actions (start / acknowledge / close) run on the server so every device sees the same thing. */
+const ALR=(op,body,local)=>{if(!API.on){local();return go()}const cur=snapOf(S);api(API.url+'/api/alert/'+op,body).then(r=>{adopt(r,cur);soft()}).catch(()=>toast('Could not reach the server. Please try again.'))};
+const famNf=(eid,msg)=>S.nf.unshift({id:Date.now()+Math.floor(Math.random()*500),at:now(),to:'fam:'+eid,msg});
+const alertCard=()=>{if(!(S.esc>0))return '<section class="card"><h2>Safety alerts</h2><p class="mut">No active alerts.</p></section>';
+return `<section class="card warn"><h2>${S.kind=='sos'?'SOS':'Missed check-in'}: ${esc(WHO().n)}</h2><p>${esc(WHO().a)} · ${esc(WHO().p)}</p>${chain()}${logL()}${S.ack?'':`<div class="row"><button class="b grn" onclick="A.ack('Admin')">I’m responding</button></div><div class="sw">${(S.ch||[]).map((s,i)=>s.k=='contact'&&S.esc>i?`<button class="c" onclick="A.ackc(${i})">✓ ${esc(s.c.n)} replied by phone</button>`:'').join('')}</div>`}<div class="row"><button class="b red" onclick="A.call()">${S.called?'108 / 112 contacted ✓':'Call 108 / 112'}</button><button class="b ghost" onclick="A.close()">Close alert</button></div></section>`};
+const escSet=()=>`<section class="card"><h2>Escalation timing</h2><p class="mut">If nobody acknowledges an alert within this time, it moves to the next person: trusted contacts in order, then free volunteers, then the admin, then 108 / 112.</p><label for="esec">Seconds to wait at each step</label><input id="esec" type="number" min="10" max="900" value="${S.escSec||60}" onchange="A.esec(this.value)"></section>`;
+const b64u=s=>{const r=atob((s+'='.repeat((4-s.length%4)%4)).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from([...r].map(c=>c.charCodeAt(0)))};
+let subFor='';
+const pushSub=async()=>{try{if(!API.on||!API.push||!S.me||!('serviceWorker' in navigator)||!('PushManager' in window)||Notification.permission!='granted')return;const ks=nfKeys().filter(Boolean),id=S.me.id+'|'+ks.join(',');if(subFor==id)return;subFor=id;const reg=await navigator.serviceWorker.register(API.url+'/sw.js');await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(API.vapid)});await api(API.url+'/api/push/subscribe',{keys:ks,sub:sub.toJSON()})}catch(e){subFor=''}};
+const boot=()=>{if(typeof fetch!='function')return;api(API.url+'/api/config').then(c=>{API.push=!!c.push;API.vapid=c.vapid||'';API.sms=!!c.sms;if(API.sms)SMS.url='server';return api(API.url+'/api/state')}).then(r=>{API.on=true;if(r&&r.v>0&&r.s&&r.s.acc)adopt(r,null);else{API.base={};API.v=0}go();sync();try{new EventSource(API.url+'/api/stream').onmessage=()=>sync()}catch(e){}setInterval(sync,5000)}).catch(()=>{API.on=false})};
+boot();
+
+route();
+</script>
+</body>
+</html>
